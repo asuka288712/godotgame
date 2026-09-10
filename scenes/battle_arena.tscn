@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://dra2nw7y16vpd"]
+
+[ext_resource type="Script" uid="uid://67ojyqwuk6j0" path="res://scripts/battle_arena.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bslbou46yo5l2" path="res://scenes/kezhan_wall-2_diffuse.jpg" id="2_j3iaf"]
+[ext_resource type="PackedScene" uid="uid://c6ygp83rc5x1w" path="res://scenes/player.tscn" id="2_li"]
+[ext_resource type="PackedScene" uid="uid://btuqvrlua5my2" path="res://scenes/zhao_linger.tscn" id="3_linger"]
+[ext_resource type="PackedScene" uid="uid://cwt300yk6i4l6" path="res://assets/sprite/bd/building.glb" id="4_0rklv"]
+[ext_resource type="Texture2D" uid="uid://0weadgoghnuw" path="res://assets/sucai/Trees/Yellow-Tree.png" id="5_j3iaf"]
+
+[sub_resource type="Environment" id="ArenaEnvironment"]
+background_mode = 1
+background_color = Color(0.48, 0.67, 0.82, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.78, 0.84, 0.88, 1)
+ambient_light_energy = 0.95
+tonemap_mode = 2
+glow_intensity = 0.7
+
+[sub_resource type="StandardMaterial3D" id="GroundMaterial"]
+albedo_color = Color(0.5, 0.46, 0.36, 1)
+roughness = 0.95
+
+[sub_resource type="PlaneMesh" id="GroundMesh"]
+material = SubResource("GroundMaterial")
+size = Vector2(36, 28)
+
+[sub_resource type="StandardMaterial3D" id="CircleMaterial"]
+albedo_color = Color(0.68, 0.64, 0.54, 1)
+albedo_texture = ExtResource("2_j3iaf")
+roughness = 0.72
+emission = Color(0.02, 0.12, 0.16, 1)
+uv1_scale = Vector3(4, 4, 4)
+
+[sub_resource type="CylinderMesh" id="CircleMesh"]
+material = SubResource("CircleMaterial")
+top_radius = 6.4
+bottom_radius = 6.4
+height = 0.12
+
+[node name="BattleArena" type="Node3D" unique_id=1258919656]
+script = ExtResource("1_script")
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=1294678477]
+environment = SubResource("ArenaEnvironment")
+
+[node name="MoonLight" type="DirectionalLight3D" parent="." unique_id=268413151]
+transform = Transform3D(0.88294756, 0.36994863, -0.2890356, 0, 0.6156615, 0.7880107, 0.46947157, -0.6957722, 0.5435968, 0, 0, 0)
+light_color = Color(1, 0.91, 0.75, 1)
+light_energy = 0.556
+light_indirect_energy = 0.921
+light_volumetric_fog_energy = 3.377
+light_angular_distance = 2.23
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="WarmRimLight" type="OmniLight3D" parent="." unique_id=1432103215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9269304, 4.5, 0.65135145)
+light_color = Color(1, 0.48, 0.18, 1)
+light_energy = 4.0
+omni_range = 13.0
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1414006877]
+transform = Transform3D(1.68, 0, 0, 0, 1.68, 0, 0, 0, 1.68, 0, 0, 0)
+mesh = SubResource("GroundMesh")
+
+[node name="BattleCircle" type="MeshInstance3D" parent="." unique_id=846796636]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011520386, 0.054951496, 0.004805088)
+mesh = SubResource("CircleMesh")
+
+[node name="Enemies" type="Node3D" parent="." unique_id=1095847088]
+
+[node name="LiXiaoyao" parent="." unique_id=611882122 instance=ExtResource("2_li")]
+transform = Transform3D(0.65256554, 0, 0, 0, 0.65256554, 0, 0, 0, 1, -2.8, 0.10264492, 0.8)
+script = null
+
+[node name="ZhaoLinger" parent="." unique_id=527608238 instance=ExtResource("3_linger")]
+transform = Transform3D(0.20150964, 0, 0, 0, 0.20150964, 0, 0, 0, 1, -4.712226, 1.1435564, 0.41699386)
+script = null
+
+[node name="building" parent="." unique_id=1515509834 instance=ExtResource("4_0rklv")]
+transform = Transform3D(-5.380872e-07, 0, -12.31, 0, 12.31, 0, 12.31, 0, -5.380872e-07, -3.766714, 4.3334856, -9.324368)
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=841982733]
+transform = Transform3D(2.16, 0, 0, 0, 2.16, 0, 0, 0, 2.16, -8.812603, 3.3178358, 0)
+alpha_cut = 1
+texture = ExtResource("5_j3iaf")
+region_enabled = true
+region_rect = Rect2(0, 387.0735, 113.484955, 325.56366)
+
+[node name="Sprite3D2" type="Sprite3D" parent="." unique_id=1390330620]
+transform = Transform3D(2.16, 0, 0, 0, 2.16, 0, 0, 0, 2.16, -7.788638, 3.3178358, -2.8251696)
+alpha_cut = 1
+texture = ExtResource("5_j3iaf")
+region_enabled = true
+region_rect = Rect2(0, 387.0735, 113.484955, 325.56366)
+
+[node name="Sprite3D3" type="Sprite3D" parent="." unique_id=1053834121]
+transform = Transform3D(2.16, 0, 0, 0, 2.16, 0, 0, 0, 2.16, 2.151535, 3.3178358, -5.5713325)
+alpha_cut = 1
+texture = ExtResource("5_j3iaf")
+region_enabled = true
+region_rect = Rect2(0, 387.0735, 113.484955, 325.56366)
+
+[node name="Sprite3D4" type="Sprite3D" parent="." unique_id=992771061]
+transform = Transform3D(2.16, 0, 0, 0, 2.16, 0, 0, 0, 2.16, 7.3705196, 3.3178358, 0)
+alpha_cut = 1
+texture = ExtResource("5_j3iaf")
+region_enabled = true
+region_rect = Rect2(0, 387.0735, 113.484955, 325.56366)

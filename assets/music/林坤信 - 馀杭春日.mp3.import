@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dqagdlrdvuedu"
+path="res://.godot/imported/林坤信 - 馀杭春日.mp3-1953636b6b5df52ab43b2c00f52196df.mp3str"
+
+[deps]
+
+source_file="res://assets/music/林坤信 - 馀杭春日.mp3"
+dest_files=["res://.godot/imported/林坤信 - 馀杭春日.mp3-1953636b6b5df52ab43b2c00f52196df.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

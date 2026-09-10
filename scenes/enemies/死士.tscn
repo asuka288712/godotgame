@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://d0a46bhp2beci"]
+
+[ext_resource type="Script" uid="uid://cbwdgn0c1oxb8" path="res://scripts/enemy.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://dgq4s4eydqls4" path="res://scenes/enemies/sprite/lancer/Warrior_Attack1.png" id="2_ych7r"]
+[ext_resource type="Texture2D" uid="uid://vn0m5p1btm7e" path="res://scenes/enemies/sprite/lancer/Warrior_Idle.png" id="3_2p61w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hsdr"]
+atlas = ExtResource("2_ych7r")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mn613"]
+atlas = ExtResource("2_ych7r")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26yl7"]
+atlas = ExtResource("2_ych7r")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_los0n"]
+atlas = ExtResource("2_ych7r")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bwmc"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cd004"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euvty"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcbtr"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efxcc"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3xer"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqbqo"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uduol"]
+atlas = ExtResource("3_2p61w")
+region = Rect2(1344, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_assassin"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hsdr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mn613")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26yl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_los0n")
+}],
+"loop": 1,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bwmc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cd004")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euvty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcbtr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efxcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3xer")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hqbqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uduol")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[node name="死士" type="Node3D" unique_id=442298071]
+script = ExtResource("1_enemy")
+enemy_name = "死士"
+base_hp = 160
+base_attack = 32
+base_defense = 18
+base_speed = 24
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=843255687]
+flip_h = true
+pixel_size = 0.0036
+billboard = 1
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_assassin")
+animation = &"attack"
+autoplay = "idle"
+frame = 2
+frame_progress = 0.24374318

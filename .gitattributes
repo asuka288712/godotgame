@@ -1,0 +1,4 @@
+scenes/kezhan_chinese_cabinet_nor_gl.png filter=lfs diff=lfs merge=lfs -text
+scenes/kezhan_chinese_console_table_nor_gl.png filter=lfs diff=lfs merge=lfs -text
+scenes/kezhan/kezhan_chinese_cabinet_nor_gl.png filter=lfs diff=lfs merge=lfs -text
+scenes/kezhan/kezhan_chinese_console_table_nor_gl.png filter=lfs diff=lfs merge=lfs -text

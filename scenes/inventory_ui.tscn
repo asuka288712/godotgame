@@ -1,0 +1,348 @@
+[gd_scene format=3 uid="uid://bqrxp2801f24b"]
+
+[ext_resource type="Script" uid="uid://dj6x5d38pl0ms" path="res://scripts/ui/inventory_ui.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c0pas7rfbwmmj" path="res://assets/ui/inventory/inventory_1.png" id="2_inventory_art"]
+[ext_resource type="Texture2D" uid="uid://b82n2o0fipqwd" path="res://assets/ui/inventory/equ/equ.png" id="3_equipment_art"]
+[ext_resource type="FontFile" uid="uid://dtjd5323ql2l7" path="res://assets/fonts/font.ttf" id="3_iradw"]
+
+[node name="InventoryUI" type="Control" unique_id=515691899]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1844491352]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.02, 0.01, 0.62)
+
+[node name="EquipmentWindow" type="Control" parent="." unique_id=1892970668]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -377.0
+offset_right = -15.0
+offset_bottom = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(292.5, 377)
+mouse_filter = 1
+
+[node name="Artwork" type="TextureRect" parent="EquipmentWindow" unique_id=1052421143]
+layout_mode = 0
+offset_right = 585.0
+offset_bottom = 754.0
+mouse_filter = 2
+texture = ExtResource("3_equipment_art")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="EquipmentWindow" unique_id=2085412327]
+layout_mode = 0
+offset_left = -13.611111
+offset_top = 39.222206
+offset_right = 186.38889
+offset_bottom = 75.222206
+scale = Vector2(1.4, 1.5333333)
+theme_override_colors/font_color = Color(0.9882353, 0.96862745, 0.60784316, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+text = "装 备 栏"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MemberName" type="Label" parent="EquipmentWindow" unique_id=116416412]
+layout_mode = 0
+offset_left = 146.38889
+offset_top = 126.999985
+offset_right = 391.3889
+offset_bottom = 161.99998
+theme_override_colors/font_color = Color(0.43137255, 0.20392157, 0.20392157, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 24
+text = "李逍遥的装备"
+horizontal_alignment = 1
+
+[node name="EquipmentSlots" type="Control" parent="EquipmentWindow" unique_id=1981002853]
+anchors_preset = 0
+offset_right = 585.0
+offset_bottom = 560.0
+
+[node name="WeaponSlot" type="Button" parent="EquipmentWindow/EquipmentSlots" unique_id=637059721]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 130.0
+offset_right = 188.0
+offset_bottom = 236.0
+flat = true
+
+[node name="Icon" type="TextureRect" parent="EquipmentWindow/EquipmentSlots/WeaponSlot" unique_id=373163308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 5.8888702
+offset_right = -31.6111
+offset_bottom = -35.666687
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ArmorSlot" type="Button" parent="EquipmentWindow/EquipmentSlots" unique_id=1248218115]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 286.0
+offset_right = 188.0
+offset_bottom = 392.0
+flat = true
+
+[node name="Icon" type="TextureRect" parent="EquipmentWindow/EquipmentSlots/ArmorSlot" unique_id=1150203740]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0555725
+offset_top = -17.888916
+offset_right = -32.722214
+offset_bottom = -60.555542
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AccessorySlot" type="Button" parent="EquipmentWindow/EquipmentSlots" unique_id=1834892634]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 442.0
+offset_right = 188.0
+offset_bottom = 548.0
+flat = true
+
+[node name="Icon" type="TextureRect" parent="EquipmentWindow/EquipmentSlots/AccessorySlot" unique_id=1146580717]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.944458
+offset_top = -5.0
+offset_right = -30.499985
+offset_bottom = -48.7778
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CharacterPreview" type="AnimatedSprite2D" parent="EquipmentWindow" unique_id=1900713009]
+position = Vector2(267.5, 382.55554)
+scale = Vector2(0.18, 0.18)
+animation = &""
+
+[node name="StatsLabel" type="Label" parent="EquipmentWindow" unique_id=568548209]
+layout_mode = 0
+offset_left = 98.611115
+offset_top = 538.1111
+offset_right = 423.6111
+offset_bottom = 588.1111
+theme_override_colors/font_color = Color(0.50980395, 0.18431373, 0.18431373, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+text = "攻击 0   防御 0   身法 0"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="EquipmentWindow" unique_id=1238061644]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 646.0
+offset_right = 475.0
+offset_bottom = 674.0
+theme_override_colors/font_color = Color(0.501961, 0.313726, 0.172549, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 13
+text = "点击装备图标可卸下装备"
+horizontal_alignment = 1
+
+[node name="Window" type="Control" parent="." unique_id=1840235035]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -377.0
+offset_right = 655.0
+offset_bottom = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset = Vector2(350, 377)
+mouse_filter = 1
+
+[node name="Artwork" type="TextureRect" parent="Window" unique_id=1959846982]
+layout_mode = 0
+offset_right = 700.0
+offset_bottom = 754.0
+mouse_filter = 2
+texture = ExtResource("2_inventory_art")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CloseHint" type="Label" parent="Window" unique_id=1724246907]
+layout_mode = 0
+offset_left = 461.11108
+offset_top = 95.88888
+offset_right = 605.1111
+offset_bottom = 121.88888
+theme_override_colors/font_color = Color(0.419608, 0.25098, 0.12549, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 13
+text = "E / Esc 关闭"
+horizontal_alignment = 2
+
+[node name="CategoryButtons" type="Control" parent="Window" unique_id=89046415]
+anchors_preset = 0
+offset_left = 77.77777
+offset_top = 95.88887
+offset_right = 218.77777
+offset_bottom = 463.88885
+
+[node name="All" type="Button" parent="Window/CategoryButtons" unique_id=1208304215]
+layout_mode = 0
+offset_top = 24.444454
+offset_right = 138.0
+offset_bottom = 82.44446
+theme_override_colors/font_color = Color(0.376471, 0.219608, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "全部"
+flat = true
+
+[node name="Medicine" type="Button" parent="Window/CategoryButtons" unique_id=236825530]
+layout_mode = 0
+offset_left = -1.1111112
+offset_top = 92.22224
+offset_right = 136.88889
+offset_bottom = 150.22224
+theme_override_colors/font_color = Color(0.376471, 0.219608, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "药品"
+flat = true
+
+[node name="Equipment" type="Button" parent="Window/CategoryButtons" unique_id=418898267]
+layout_mode = 0
+offset_top = 157.7778
+offset_right = 138.0
+offset_bottom = 215.7778
+theme_override_colors/font_color = Color(0.376471, 0.219608, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "装备"
+flat = true
+
+[node name="Material" type="Button" parent="Window/CategoryButtons" unique_id=1605357672]
+layout_mode = 0
+offset_top = 222.22223
+offset_right = 138.0
+offset_bottom = 280.22223
+theme_override_colors/font_color = Color(0.376471, 0.219608, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "素材"
+flat = true
+
+[node name="SkillBook" type="Button" parent="Window/CategoryButtons" unique_id=1985051865]
+layout_mode = 0
+offset_left = 2.2222223
+offset_top = 290.0
+offset_right = 140.22223
+offset_bottom = 348.0
+theme_override_colors/font_color = Color(0.376471, 0.219608, 0.0901961, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+text = "技能"
+flat = true
+
+[node name="ItemGrid" type="GridContainer" parent="Window" unique_id=1653275662]
+layout_mode = 0
+offset_left = 204.0
+offset_top = 126.0
+offset_right = 606.0
+offset_bottom = 499.0
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 4
+
+[node name="PartyTabs" type="Control" parent="Window" unique_id=1232765255]
+anchors_preset = 0
+offset_left = 85.55556
+offset_top = 54.77776
+offset_right = 486.55548
+offset_bottom = 86.777756
+
+[node name="LiXiaoyao" type="Button" parent="Window/PartyTabs" unique_id=2014807734]
+layout_mode = 0
+offset_left = -10.0
+offset_top = -4.4444447
+offset_right = 82.0
+offset_bottom = 30.555555
+theme_override_colors/font_color = Color(0.95769113, 0.83786076, 0.77095056, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 22
+toggle_mode = true
+text = "李逍遥"
+
+[node name="ZhaoLinger" type="Button" parent="Window/PartyTabs" unique_id=1448055329]
+layout_mode = 0
+offset_left = 154.44443
+offset_top = -4.4444447
+offset_right = 246.44443
+offset_bottom = 30.555555
+theme_override_colors/font_color = Color(0.99839526, 0.8744737, 0.6413646, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+theme_override_font_sizes/font_size = 22
+toggle_mode = true
+text = "赵灵儿"
+
+[node name="DetailLabel" type="Label" parent="Window" unique_id=1576507471]
+layout_mode = 0
+offset_left = 318.88892
+offset_top = 521.4444
+offset_right = 577.77783
+offset_bottom = 628.1111
+theme_override_colors/font_color = Color(0.26657522, 0.2665752, 0.2665752, 1)
+theme_override_fonts/font = ExtResource("3_iradw")
+text = "选择一件物品查看说明"
+autowrap_mode = 2
+
+[node name="SelectedItemIcon" type="TextureRect" parent="Window" unique_id=191474261]
+layout_mode = 0
+offset_left = 214.44446
+offset_top = 519.22217
+offset_right = 299.0
+offset_bottom = 615.8889
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

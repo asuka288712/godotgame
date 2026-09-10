@@ -1,0 +1,559 @@
+[gd_scene format=3 uid="uid://cjigtxx6jb7jx"]
+
+[ext_resource type="Script" uid="uid://6w85jc0mmevs" path="res://scripts/ui/battle_ui.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b41hkdxwtmom4" path="res://assets/ui/hud/hp.png" id="3_0ajt0"]
+[ext_resource type="Texture2D" uid="uid://bjak3pouvfe0h" path="res://assets/ui/hud/mp.png" id="4_lms6i"]
+[ext_resource type="FontFile" uid="uid://dtjd5323ql2l7" path="res://assets/fonts/font.ttf" id="4_wvifm"]
+[ext_resource type="Texture2D" uid="uid://dhnlsg0vhe45e" path="res://assets/ui/hud/bg.png" id="5_4gpxj"]
+[ext_resource type="Texture2D" uid="uid://dpk3r5cvxvcxq" path="res://assets/ui/buttle/buttle.png" id="5_command_art"]
+[ext_resource type="Texture2D" uid="uid://ctjevrugngdw4" path="res://assets/ui/hud/mbg.png" id="6_lk0n2"]
+[ext_resource type="Texture2D" uid="uid://03ocm10xsoc8" path="res://assets/ui/buttle/buttle_x.png" id="6_submenu_art"]
+[ext_resource type="Script" uid="uid://dnbmqmu3e6qdb" path="res://scripts/ui/battle_status_card.gd" id="7_status_card"]
+
+[sub_resource type="StyleBoxFlat" id="StyleActionGaugeBg"]
+bg_color = Color(0.08, 0.045, 0.025, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.76, 0.53, 0.23, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleActionGaugeFill"]
+bg_color = Color(0.96, 0.72, 0.25, 0.95)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="BattleUI" type="Control" unique_id=2016430886]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="BattleBackdrop" type="ColorRect" parent="." unique_id=281319751]
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.055, 0.08, 0.16, 0.08)
+
+[node name="BattleSceneBackground" type="TextureRect" parent="." unique_id=280319751]
+visible = false
+z_index = -3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BattleStage" type="Control" parent="." unique_id=603915073]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BattleTitle" type="Label" parent="BattleStage" unique_id=624218547]
+layout_mode = 0
+offset_left = 440.0
+offset_top = 82.0
+offset_right = 840.0
+offset_bottom = 124.0
+text = "战斗开始"
+horizontal_alignment = 1
+
+[node name="PartyScroll" type="ScrollContainer" parent="." unique_id=2056842238]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 306.0
+offset_bottom = 370.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="PartyPanel" type="VBoxContainer" parent="PartyScroll" unique_id=76369870]
+custom_minimum_size = Vector2(278, 0)
+layout_mode = 2
+theme_override_constants/separation = -14
+
+[node name="EnemyScroll" type="ScrollContainer" parent="." unique_id=525280989]
+layout_mode = 0
+offset_left = 954.0
+offset_top = 20.0
+offset_right = 1260.0
+offset_bottom = 470.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="EnemyPanel" type="VBoxContainer" parent="EnemyScroll" unique_id=117757516]
+custom_minimum_size = Vector2(278, 0)
+layout_mode = 2
+theme_override_constants/separation = -14
+
+[node name="StatusCardTemplate" type="Panel" parent="." unique_id=886367695]
+visible = false
+custom_minimum_size = Vector2(278, 150)
+layout_mode = 0
+offset_right = 278.0
+offset_bottom = 150.0
+script = ExtResource("7_status_card")
+
+[node name="AvatarFrame" type="Panel" parent="StatusCardTemplate" unique_id=1523340746]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 31.0
+offset_right = 95.0
+offset_bottom = 101.0
+
+[node name="AvatarTexture" type="TextureRect" parent="StatusCardTemplate/AvatarFrame" unique_id=1094105534]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AvatarInitial" type="Label" parent="StatusCardTemplate/AvatarFrame" unique_id=538771922]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="StatusCardTemplate" unique_id=395278162]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 31.0
+offset_right = 196.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(1, 1, 0.8745098, 1)
+theme_override_fonts/font = ExtResource("4_wvifm")
+theme_override_font_sizes/font_size = 18
+text = "李逍遥"
+
+[node name="HPBar" type="TextureProgressBar" parent="StatusCardTemplate" unique_id=1893515909]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 67.0
+offset_right = 260.0
+offset_bottom = 83.0
+mouse_filter = 2
+nine_patch_stretch = true
+texture_progress = ExtResource("3_0ajt0")
+
+[node name="HPValue" type="Label" parent="StatusCardTemplate" unique_id=329396068]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 63.0
+offset_right = 260.0
+offset_bottom = 87.0
+text = "精  280 / 280"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MPBar" type="TextureProgressBar" parent="StatusCardTemplate" unique_id=133610084]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 88.0
+offset_right = 260.0
+offset_bottom = 104.0
+mouse_filter = 2
+nine_patch_stretch = true
+texture_progress = ExtResource("4_lms6i")
+
+[node name="MPValue" type="Label" parent="StatusCardTemplate" unique_id=2141781700]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 84.0
+offset_right = 260.0
+offset_bottom = 108.0
+text = "神  60 / 60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundArt" type="TextureRect" parent="StatusCardTemplate" unique_id=1454082124]
+z_index = -1
+layout_mode = 1
+offset_right = 278.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_4gpxj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIcons" type="Control" parent="StatusCardTemplate" unique_id=176309616]
+z_index = 2
+anchors_preset = 0
+offset_left = 105.0
+offset_top = 118.0
+offset_right = 265.0
+offset_bottom = 158.0
+mouse_filter = 2
+
+[node name="EnemyStatusCardTemplate" type="Panel" parent="." unique_id=533077233]
+visible = false
+custom_minimum_size = Vector2(278, 122)
+layout_mode = 0
+offset_left = 954.0
+offset_top = 20.0
+offset_right = 1232.0
+offset_bottom = 142.0
+script = ExtResource("7_status_card")
+
+[node name="AvatarFrame" type="Panel" parent="EnemyStatusCardTemplate" unique_id=1607120616]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 22.0
+offset_right = 83.0
+offset_bottom = 80.0
+
+[node name="AvatarTexture" type="TextureRect" parent="EnemyStatusCardTemplate/AvatarFrame" unique_id=449669517]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AvatarInitial" type="Label" parent="EnemyStatusCardTemplate/AvatarFrame" unique_id=1588451773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="EnemyStatusCardTemplate" unique_id=432094153]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 30.0
+offset_right = 264.0
+offset_bottom = 54.0
+theme_override_fonts/font = ExtResource("4_wvifm")
+text = "蘑菇怪"
+
+[node name="HPBar" type="TextureProgressBar" parent="EnemyStatusCardTemplate" unique_id=793204610]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 65.0
+offset_right = 260.0
+offset_bottom = 81.0
+mouse_filter = 2
+nine_patch_stretch = true
+texture_progress = ExtResource("3_0ajt0")
+
+[node name="HPValue" type="Label" parent="EnemyStatusCardTemplate" unique_id=1906312150]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 62.0
+offset_right = 260.0
+offset_bottom = 86.0
+text = "精  90 / 90"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundArt" type="TextureRect" parent="EnemyStatusCardTemplate" unique_id=1189384307]
+z_index = -1
+layout_mode = 1
+offset_right = 278.0
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_lk0n2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusIcons" type="Control" parent="EnemyStatusCardTemplate" unique_id=995905741]
+z_index = 2
+anchors_preset = 0
+offset_left = 105.0
+offset_top = 90.0
+offset_right = 265.0
+offset_bottom = 130.0
+mouse_filter = 2
+
+[node name="ActionGauge" type="ProgressBar" parent="." unique_id=472859765]
+visible = false
+layout_mode = 0
+offset_left = 500.0
+offset_top = 20.0
+offset_right = 800.0
+offset_bottom = 50.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleActionGaugeBg")
+theme_override_styles/fill = SubResource("StyleActionGaugeFill")
+max_value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="ActionGauge" unique_id=472859764]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionTimeline" type="Control" parent="."]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 14.0
+offset_right = 860.0
+offset_bottom = 68.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="ActionTimeline"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 440.0
+offset_bottom = 18.0
+horizontal_alignment = 1
+
+[node name="Track" type="ColorRect" parent="ActionTimeline"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 29.0
+offset_right = 428.0
+offset_bottom = 35.0
+mouse_filter = 2
+color = Color(0.12, 0.07, 0.035, 0.9)
+
+[node name="Start" type="Label" parent="ActionTimeline"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 19.0
+offset_right = 32.0
+offset_bottom = 49.0
+text = "起"
+horizontal_alignment = 1
+
+[node name="Finish" type="Label" parent="ActionTimeline"]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 19.0
+offset_right = 440.0
+offset_bottom = 49.0
+text = "放"
+horizontal_alignment = 1
+
+[node name="Runners" type="Control" parent="ActionTimeline"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TurnLabel" type="Label" parent="." unique_id=472859766]
+visible = false
+layout_mode = 0
+offset_left = 500.0
+offset_top = 20.0
+offset_right = 800.0
+offset_bottom = 50.0
+horizontal_alignment = 1
+
+[node name="VictoryPanel" type="Control" parent="." unique_id=100210107]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VictoryLabel" type="Label" parent="VictoryPanel" unique_id=100210108]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 98.0
+offset_bottom = 168.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.3, 1)
+theme_override_font_sizes/font_size = 44
+text = "战 斗 胜 利"
+horizontal_alignment = 1
+
+[node name="ContinueHint" type="Label" parent="VictoryPanel" unique_id=100210109]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 174.0
+offset_bottom = 208.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.94, 0.75, 0.9)
+theme_override_font_sizes/font_size = 18
+text = "点击鼠标返回地图"
+horizontal_alignment = 1
+
+[node name="CommandArtwork" type="TextureRect" parent="." unique_id=100210100]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 355.0
+offset_right = 258.0
+offset_bottom = 648.20667
+mouse_filter = 2
+texture = ExtResource("5_command_art")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CmdPanel" type="Control" parent="." unique_id=1680598881]
+anchors_preset = 0
+offset_left = 85.0
+offset_top = 377.0
+offset_right = 278.0
+offset_bottom = 631.0
+
+[node name="AttackButton" type="Button" parent="CmdPanel" unique_id=100210102]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 7.0
+offset_top = 28.0
+offset_right = 197.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "攻击"
+flat = true
+
+[node name="SkillButton" type="Button" parent="CmdPanel" unique_id=100210103]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 65.0
+offset_right = 198.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "技能"
+flat = true
+
+[node name="ItemButton" type="Button" parent="CmdPanel" unique_id=100210104]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 7.0
+offset_top = 101.0
+offset_right = 197.0
+offset_bottom = 136.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "道具"
+flat = true
+
+[node name="DefendButton" type="Button" parent="CmdPanel" unique_id=100210105]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 7.0
+offset_top = 138.0
+offset_right = 197.0
+offset_bottom = 173.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "防御"
+flat = true
+
+[node name="EscapeButton" type="Button" parent="CmdPanel" unique_id=100210106]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 6.0
+offset_top = 178.0
+offset_right = 196.0
+offset_bottom = 213.0
+theme_override_colors/font_color = Color(0.24, 0.12, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "逃跑"
+flat = true
+
+[node name="SubMenu" type="Control" parent="." unique_id=1336351027]
+anchors_preset = 0
+offset_left = 52.0
+offset_top = 355.0
+offset_right = 258.0
+offset_bottom = 648.20667
+
+[node name="Artwork" type="TextureRect" parent="SubMenu" unique_id=445277085]
+layout_mode = 0
+offset_right = 206.0
+offset_bottom = 293.20667
+mouse_filter = 2
+texture = ExtResource("6_submenu_art")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="SubMenu" unique_id=267244553]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.291
+anchor_top = 0.133
+anchor_right = 0.8880001
+anchor_bottom = 0.76400006
+offset_right = 0.07199097
+offset_bottom = -0.009902954
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="List" type="VBoxContainer" parent="SubMenu/ScrollContainer" unique_id=1234195451]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="BackButton" type="Button" parent="SubMenu" unique_id=1587857530]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 224.0
+offset_right = 92.0
+offset_bottom = 246.0
+theme_override_colors/font_color = Color(0.44003716, 0.19188419, 0.021952532, 1)
+theme_override_fonts/font = ExtResource("4_wvifm")
+theme_override_font_sizes/font_size = 11
+text = "返回"
+flat = true
+
+[node name="TargetPanel" type="VBoxContainer" parent="." unique_id=1900689537]
+visible = false
+layout_mode = 0
+offset_left = 480.0
+offset_top = 440.0
+offset_right = 780.0
+offset_bottom = 640.0

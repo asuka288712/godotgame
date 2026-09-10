@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://73xlx7t4t1xw"]
+
+[ext_resource type="Script" uid="uid://c1xgfx8ey81dc" path="res://scripts/ui/hud.gd" id="1_script"]
+
+[node name="HUD" type="Control" unique_id=263999165]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="PartyPanel" type="VBoxContainer" parent="." unique_id=1787183590]
+visible = false
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 295.0
+offset_bottom = 135.0
+
+[node name="PartyBg" type="ColorRect" parent="PartyPanel" unique_id=1450248536]
+layout_mode = 2
+color = Color(0, 0, 0.05, 0.55)
+
+[node name="HintLabel" type="Label" parent="." unique_id=992507425]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 680.0
+offset_right = 920.0
+offset_bottom = 710.0
+text = "WASD/方向键: 移动    E: 交互 / 物品栏    空格: 跳跃    F1: 测试战斗"
+horizontal_alignment = 1
+
+[node name="BattleOverlay" type="ColorRect" parent="." unique_id=2099223770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

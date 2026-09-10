@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ceiphgdrmhfqt"
+path="res://.godot/imported/林坤信 - 势如破竹.mp3-c459509c37cc983a2d596f6d53906095.mp3str"
+
+[deps]
+
+source_file="res://assets/music/林坤信 - 势如破竹.mp3"
+dest_files=["res://.godot/imported/林坤信 - 势如破竹.mp3-c459509c37cc983a2d596f6d53906095.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

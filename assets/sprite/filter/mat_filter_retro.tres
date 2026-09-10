@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cltwkwqi04wj0"]
+
+[ext_resource type="Shader" uid="uid://bbwybk8xwcwnc" path="res://assets/sprite/filter/filter_retro.gdshader" id="1_hi71g"]
+
+[resource]
+shader = ExtResource("1_hi71g")

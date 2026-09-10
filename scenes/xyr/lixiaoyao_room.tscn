@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://dpvfn6beookp4"]
+
+[ext_resource type="Script" uid="uid://dmf0036tcavod" path="res://scripts/interior_scene.gd" id="1_interior"]
+[ext_resource type="PackedScene" uid="uid://c6ygp83rc5x1w" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://btuqvrlua5my2" path="res://scenes/zhao_linger.tscn" id="3_linger"]
+[ext_resource type="PackedScene" uid="uid://ncahqqgkmmsn" path="res://scenes/xyr/lxyr.tscn" id="4_room_model"]
+[ext_resource type="Script" uid="uid://cf01l2pqkor5m" path="res://scripts/scene_portal.gd" id="5_portal"]
+[ext_resource type="Texture2D" uid="uid://ddx1jw1vvvy1f" path="res://assets/sprite/items/leaf.png" id="6_vjd8w"]
+[ext_resource type="Script" uid="uid://bi3rohhbximdd" path="res://scripts/opening_room_cutscene.gd" id="7_opening"]
+[ext_resource type="Texture2D" uid="uid://c5ot8gtp6r6eu" path="res://assets/sprite/npc/ldn.png" id="8_ldn"]
+[ext_resource type="PackedScene" uid="uid://cle504v2gygly" path="res://scenes/dialogue_ui.tscn" id="9_dialogue_ui"]
+[ext_resource type="AudioStream" uid="uid://cdct6xi8mjij6" path="res://assets/music/林坤信 - 乐逍遥.mp3" id="10_opening_music"]
+
+[sub_resource type="Environment" id="RoomEnvironment"]
+background_mode = 1
+background_color = Color(0.012, 0.008, 0.018, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.58, 0.34, 0.18, 1)
+ambient_light_energy = 0.65
+reflected_light_source = 2
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.38
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(100, 0.2, 100)
+
+[sub_resource type="BoxShape3D" id="ExitShape"]
+size = Vector3(2.5, 2.5, 1.5)
+
+[node name="LiXiaoyaoRoom" type="Node3D" unique_id=1636567715]
+script = ExtResource("1_interior")
+scene_title = "李逍遥房间"
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=680940216]
+environment = SubResource("RoomEnvironment")
+
+[node name="WarmLight" type="OmniLight3D" parent="." unique_id=77164303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2430868, 3.7411108, 7.41894)
+light_color = Color(1, 0.7, 0.42, 1)
+light_energy = 4.0
+shadow_enabled = true
+omni_range = 14.0
+
+[node name="FillLight" type="OmniLight3D" parent="." unique_id=245879100]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12742138, 5.9676466, 1.929183)
+light_color = Color(0.7, 0.5, 0.34, 1)
+light_energy = 1.6
+omni_range = 10.088149
+
+[node name="FloorCollision" type="StaticBody3D" parent="." unique_id=1451318416]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorCollision" unique_id=1525337412]
+shape = SubResource("FloorShape")
+
+[node name="lxyr" parent="." unique_id=2103605565 instance=ExtResource("4_room_model")]
+transform = Transform3D(-1.04470224e-07, 0, 2.39, 0, 2.39, 0, -2.39, 0, -1.04470224e-07, 0, 0, 2.437336)
+
+[node name="Player" parent="." unique_id=1903404857 instance=ExtResource("2_player")]
+transform = Transform3D(0.7342566, 0, 0, 0, 0.7342566, 0, 0, 0, 1, -3.2712092, 1.1506538, -2.3903403)
+jump_velocity = 6.0
+
+[node name="ZhaoLinger" parent="." unique_id=803264052 instance=ExtResource("3_linger")]
+transform = Transform3D(0.2398408, 0, 0, 0, 0.2398408, 0, 0, 0, 0.35, -2, 1.3715434, 4)
+visible = false
+
+[node name="LiDaniang" type="Node3D" parent="." unique_id=1126277655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.35, 0, 4.35)
+
+[node name="Sprite3D" type="Sprite3D" parent="LiDaniang" unique_id=150664945]
+transform = Transform3D(0.63, 0, 0, 0, 0.63, 0, 0, 0, 0.63, -4.1978188, 1.3412038, -4.128265)
+flip_h = true
+pixel_size = 0.004
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("8_ldn")
+
+[node name="Callout" type="Label3D" parent="LiDaniang" unique_id=433312627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.25, 0)
+visible = false
+billboard = 1
+text = "逍遥，快起床！"
+font_size = 30
+outline_size = 6
+
+[node name="OpeningRoomCutscene" type="Node" parent="." unique_id=616858868]
+script = ExtResource("7_opening")
+
+[node name="OpeningMusic" type="AudioStreamPlayer" parent="." unique_id=1291362090]
+stream = ExtResource("10_opening_music")
+volume_db = -8.0
+parameters/looping = true
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1442233993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
+current = true
+
+[node name="ExitToInn" type="Area3D" parent="." unique_id=471552288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.3)
+script = ExtResource("5_portal")
+target_scene = "res://scenes/lijiakezhan.tscn"
+prompt_text = "[E] 返回李家客栈"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitToInn" unique_id=1494513007]
+shape = SubResource("ExitShape")
+
+[node name="PromptLabel" type="Label3D" parent="ExitToInn" unique_id=1352777543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+billboard = 1
+font_size = 28
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1161960022]
+transform = Transform3D(0.083479375, 0, 0, 0, 0.083479375, 0, 0, 0, 1, -5.696336, 2.5575054, 2.4570065)
+alpha_cut = 1
+texture = ExtResource("6_vjd8w")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1574492242]
+
+[node name="DialogueUI" parent="UILayer" unique_id=938820541 instance=ExtResource("9_dialogue_ui")]

@@ -1,0 +1,16 @@
+[gd_resource type="Environment" format=3 uid="uid://uhulbxxmr885"]
+
+[resource]
+background_mode = 1
+background_color = Color(0.38613865, 0.61114866, 0.5788862, 1)
+background_energy_multiplier = 1.32
+ambient_light_source = 2
+ambient_light_color = Color(0.78, 0.82, 0.9, 1)
+ambient_light_energy = 0.15
+ssao_enabled = true
+ssao_radius = 0.5
+glow_enabled = true
+glow_intensity = 0.25
+fog_enabled = true
+fog_light_color = Color(0.65, 0.72, 0.82, 1)
+fog_density = 0.003

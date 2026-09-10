@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cle504v2gygly"]
+
+[ext_resource type="Script" uid="uid://bghwsdvau4syt" path="res://scripts/ui/dialogue_ui.gd" id="1_script"]
+
+[node name="DialogueUI" type="Control" unique_id=101217708]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="BgPanel" type="ColorRect" parent="." unique_id=1514344726]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.72
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0.05, 0.82)
+
+[node name="NameLabel" type="Label" parent="BgPanel" unique_id=1331426519]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 20.0
+offset_right = 520.0
+offset_bottom = 56.0
+
+[node name="TextLabel" type="RichTextLabel" parent="BgPanel" unique_id=264723501]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 60.0
+offset_right = 1160.0
+offset_bottom = 160.0
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="ContinueHint" type="Label" parent="BgPanel" unique_id=1555022113]
+visible = false
+layout_mode = 0
+offset_left = 1180.0
+offset_top = 130.0
+offset_right = 1220.0
+offset_bottom = 150.0
+text = "▼"
+
+[node name="PortraitShadow" type="ColorRect" parent="." unique_id=1563330699]
+visible = false
+layout_mode = 0
+offset_left = 34.0
+offset_top = 238.0
+offset_right = 266.0
+offset_bottom = 698.0
+mouse_filter = 2
+color = Color(0.02, 0.01, 0.03, 0)
+
+[node name="PortraitFrame" type="ColorRect" parent="." unique_id=1984906198]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 228.0
+offset_right = 256.0
+offset_bottom = 688.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Portrait" type="TextureRect" parent="PortraitFrame" unique_id=279636002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 125.0
+offset_right = 8.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PortraitName" type="Label" parent="PortraitFrame" unique_id=514699201]
+visible = false
+layout_mode = 0
+offset_left = 12.0
+offset_top = 420.0
+offset_right = 220.0
+offset_bottom = 452.0
+horizontal_alignment = 1

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/follower_controller.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprite/anime/idle/Lr/001.png" id="2_texture"]
+
+[node name="Follower" type="Node3D"]
+visible = false
+script = ExtResource("1_script")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, 1.6, 0)
+texture = ExtResource("2_texture")
+offset = Vector2(0, 150)
+pixel_size = 0.004
+billboard = 1
+shaded = true
+alpha_cut = 1

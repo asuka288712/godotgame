@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://dy1hy3fvoekqk"]
+
+[ext_resource type="PackedScene" uid="uid://c6ygp83rc5x1w" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://cf01l2pqkor5m" path="res://scripts/scene_portal.gd" id="2_portal"]
+[ext_resource type="Script" uid="uid://dmf0036tcavod" path="res://scripts/interior_scene.gd" id="4_scene_script"]
+[ext_resource type="PackedScene" uid="uid://co0qvyoyip4mh" path="res://scenes/kezhan/kezhan.glb" id="5_emg7e"]
+[ext_resource type="PackedScene" uid="uid://btuqvrlua5my2" path="res://scenes/zhao_linger.tscn" id="6_linger"]
+
+[sub_resource type="Environment" id="InteriorEnvironment"]
+background_mode = 1
+background_color = Color(0.008, 0.006, 0.012, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.5, 0.29, 0.14, 1)
+ambient_light_energy = 0.55
+reflected_light_source = 2
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.45
+
+[sub_resource type="BoxShape3D" id="InnFloorCollision"]
+size = Vector3(100, 0.2, 100)
+
+[sub_resource type="BoxShape3D" id="DoorShape"]
+size = Vector3(2.5, 2.5, 1.5)
+
+[node name="LiJiaKeZhan" type="Node3D" unique_id=765565542]
+script = ExtResource("4_scene_script")
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=1576526030]
+environment = SubResource("InteriorEnvironment")
+
+[node name="WarmLight" type="OmniLight3D" parent="." unique_id=1935456263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 6.1957474)
+light_color = Color(1, 0.68, 0.38, 1)
+light_energy = 4.0
+shadow_enabled = true
+omni_range = 12.0
+
+[node name="WarmLight" type="OmniLight3D" parent="WarmLight" unique_id=233353170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.070217, 1.8967714, -4.421363)
+light_color = Color(1, 0.68, 0.38, 1)
+light_energy = 4.0
+omni_range = 12.0
+
+[node name="LanternLightLeft" type="OmniLight3D" parent="." unique_id=972617566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3, 1.5)
+light_color = Color(1, 0.48, 0.2, 1)
+light_energy = 2.4
+shadow_enabled = true
+omni_range = 7.0
+
+[node name="LanternLightRight" type="OmniLight3D" parent="." unique_id=1347941276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, 1.5)
+light_color = Color(1, 0.48, 0.2, 1)
+light_energy = 2.4
+shadow_enabled = true
+omni_range = 7.0
+
+[node name="FloorCollision" type="StaticBody3D" parent="." unique_id=972554006]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorCollision" unique_id=505635693]
+shape = SubResource("InnFloorCollision")
+
+[node name="Player" parent="." unique_id=856363115 instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12792316, 4.5)
+
+[node name="ZhaoLinger" parent="." unique_id=656363115 instance=ExtResource("6_linger")]
+transform = Transform3D(0.35056004, 0, 0, 0, 0.35056004, 0, 0, 0, 1, -2.7829444, 1.7852253, 4.4796743)
+visible = false
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1280532320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
+current = true
+
+[node name="ExitToVillage" type="Area3D" parent="." unique_id=1938769410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.5)
+script = ExtResource("2_portal")
+target_scene = "res://scenes/main.tscn"
+prompt_text = "[E] 返回村庄"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitToVillage" unique_id=1154031762]
+shape = SubResource("DoorShape")
+
+[node name="PromptLabel" type="Label3D" parent="ExitToVillage" unique_id=1355014437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+billboard = 1
+font_size = 28
+
+[node name="EnterLiXiaoyaoRoom" type="Area3D" parent="." unique_id=1921192055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 1, 2.7)
+script = ExtResource("2_portal")
+target_scene = "res://scenes/xyr/lixiaoyao_room.tscn"
+prompt_text = "[E] 进入李逍遥房间"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnterLiXiaoyaoRoom" unique_id=1740371587]
+shape = SubResource("DoorShape")
+
+[node name="PromptLabel" type="Label3D" parent="EnterLiXiaoyaoRoom" unique_id=1683543935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+billboard = 1
+font_size = 28
+
+[node name="Title" type="Label3D" parent="." unique_id=1604317113]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -6.55)
+billboard = 1
+text = "李 家 客 栈"
+font_size = 48
+
+[node name="kezhan" parent="." unique_id=2049107201 instance=ExtResource("5_emg7e")]
+transform = Transform3D(-6.687842e-08, 0, -1.53, 0, 1.53, 0, 1.53, 0, -6.687842e-08, -7.0726595, 5.0446167, 6.4940186)
