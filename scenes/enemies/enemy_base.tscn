@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_enemy"]
+
+[node name="EnemyBase" type="Node3D"]
+script = ExtResource("1_enemy")
+enemy_name = "敌人"
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+pixel_size = 0.004
+billboard = 1
+alpha_cut = 1
+texture_filter = 0

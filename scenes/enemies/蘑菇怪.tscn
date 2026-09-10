@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c18xth7rpa44u"]
 
-[ext_resource type="Script" uid="uid://cbwdgn0c1oxb8" path="res://scripts/enemy.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/enemy_base.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://dtsdmwmslxlo6" path="res://scenes/enemies/sprite/mush/Mushroom-Attack.png" id="2_feg5g"]
 [ext_resource type="Texture2D" uid="uid://w1peb7mpisaw" path="res://scenes/enemies/sprite/mush/Mushroom-Die.png" id="3_8x7jj"]
 [ext_resource type="Texture2D" uid="uid://dftrpc8sumepi" path="res://scenes/enemies/sprite/mush/Mushroom-Idle.png" id="3_t1vxb"]
@@ -288,15 +288,14 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="蘑菇怪" type="Node3D" unique_id=1390584284]
-script = ExtResource("1_enemy")
+[node name="EnemyBase" instance=ExtResource("1_base")]
 enemy_name = "蘑菇怪"
 base_hp = 90
 base_attack = 18
 base_defense = 8
 base_speed = 12
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=235659105]
+[node name="AnimatedSprite3D" parent="." index="0"]
 pixel_size = 0.0036
 billboard = 1
 shaded = true
