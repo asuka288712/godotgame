@@ -3,11 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3s4w3gjb62jn"
-path.s3tc="res://.godot/imported/kezhan_chinese_console_table_nor_gl.png-b97964b6fd93f43090901f11e22eb592.s3tc.ctex"
-metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
+valid=false
 generator_parameters={
 "md5": "0be6f85a5a5a2fbfc09f60ef3c840920"
 }
@@ -15,7 +11,6 @@ generator_parameters={
 [deps]
 
 source_file="res://scenes/kezhan/kezhan_chinese_console_table_nor_gl.png"
-dest_files=["res://.godot/imported/kezhan_chinese_console_table_nor_gl.png-b97964b6fd93f43090901f11e22eb592.s3tc.ctex"]
 
 [params]
 

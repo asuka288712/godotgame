@@ -10,12 +10,14 @@ var _party_labels: Array = []
 
 func _ready() -> void:
 	_setup_font()
+	_hint_label.text += "    B 背包    ESC 设置"
+	preload("res://scripts/ui/ui_motion.gd").reveal(_hint_label, 0.5)
 	BattleSystem.battle_started.connect(_on_battle_started)
 	BattleSystem.battle_ended.connect(_on_battle_ended)
 	# 动态创建队伍标签
 	for p in GameData.party:
 		var lbl := Label.new()
-		lbl.text = "%s  HP:%d/%d  MP:%d/%d" % [p.char_name, p.hp, p.max_hp, p.mp, p.max_mp]
+		lbl.text = "%s  体力:%d/%d  真气:%d/%d" % [p.char_name, p.hp, p.max_hp, p.mp, p.max_mp]
 		lbl.add_theme_font_override("font", _font)
 		lbl.add_theme_font_size_override("font_size", 14)
 		lbl.add_theme_color_override("font_color", Color(0.85, 1, 0.85))
@@ -41,7 +43,7 @@ func _process(_delta: float) -> void:
 func _update_party_display() -> void:
 	for i in range(min(GameData.party.size(), _party_labels.size())):
 		var p = GameData.party[i]
-		_party_labels[i].text = "%s  HP:%d/%d  MP:%d/%d" % [p.char_name, p.hp, p.max_hp, p.mp, p.max_mp]
+		_party_labels[i].text = "%s  体力:%d/%d  真气:%d/%d" % [p.char_name, p.hp, p.max_hp, p.mp, p.max_mp]
 
 func _on_battle_started(_enemies: Array) -> void:
 	var tw := create_tween()

@@ -44,7 +44,7 @@ func start_sword_rain() -> void:
 func _spawn_sword_rain() -> void:
 	for sword_index in range(10):
 		_spawn_falling_sword(sword_index)
-		await get_tree().create_timer(0.045).timeout
+		await get_tree().create_timer(0.045, false).timeout
 
 func _spawn_falling_sword(_index: int) -> void:
 	var sword := TextureRect.new()

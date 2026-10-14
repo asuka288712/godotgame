@@ -11,10 +11,15 @@ uniform float bloom_strength : hint_range(0.0, 0.5) = 0.18;
 uniform float bloom_threshold : hint_range(0.3, 1.0) = 0.68;
 uniform float vignette_strength : hint_range(0.0, 0.45) = 0.16;
 uniform float grain_strength : hint_range(0.0, 0.04) = 0.008;
-uniform float edge_blur_strength : hint_range(0.0, 0.35) = 0.06;
-uniform float far_blur_strength : hint_range(0.0, 0.65) = 0.22;
-uniform float far_blur_start : hint_range(0.0, 1.0) = 0.42;
-uniform float far_blur_end : hint_range(0.0, 1.0) = 0.82;
+// 移轴焦平面：中间横带清晰，越靠上下边缘越模糊。
+uniform float tilt_focus_center : hint_range(0.0, 1.0) = 0.54;
+uniform float tilt_focus_half_width : hint_range(0.04, 0.45) = 0.13;
+uniform float tilt_focus_transition : hint_range(0.02, 0.45) = 0.17;
+uniform float tilt_blur_strength : hint_range(0.0, 1.0) = 0.78;
+uniform float tilt_blur_mip_level : hint_range(0.0, 6.0) = 4.1;
+uniform float edge_blur_strength : hint_range(0.0, 0.50) = 0.15;
+uniform float foreground_blur_strength : hint_range(0.0, 1.0) = 0.42;
+uniform float foreground_blur_start : hint_range(0.0, 1.0) = 0.67;
 
 float luminance(vec3 color) {
 	return dot(color, vec3(0.2126, 0.7152, 0.0722));
@@ -43,13 +48,15 @@ void fragment() {
 	vec2 texel = 1.0 / vec2(textureSize(screen_texture, 0));
 	vec3 soft_focus = soft_sample(SCREEN_UV, texel);
 
-	// The current compatibility renderer cannot safely expose the 3D depth
-	// texture to a canvas shader. In this overhead camera, the upper screen is
-	// the distant part of the world, so this creates a stable far-focus gradient.
-	float far_distance = 1.0 - SCREEN_UV.y;
-	float far_mask = smoothstep(far_blur_start, far_blur_end, far_distance) * far_blur_strength;
-	float edge_mask = smoothstep(0.35, 0.72, length(centered_uv)) * edge_blur_strength;
-	color = mix(color, soft_focus, clamp(far_mask + edge_mask, 0.0, 1.0));
+	// mipmap 取样带来明显柔焦，不只是混合周围两三个像素。
+	float vertical_distance = abs(SCREEN_UV.y - tilt_focus_center);
+	float tilt_mask = smoothstep(tilt_focus_half_width, tilt_focus_half_width + tilt_focus_transition, vertical_distance);
+	float edge_mask = smoothstep(0.38, 0.72, length(centered_uv)) * edge_blur_strength;
+	// 下半屏代表贴近镜头的地面与前景物，额外虚化以加强微缩景深。
+	float foreground_mask = smoothstep(foreground_blur_start, 1.0, SCREEN_UV.y) * foreground_blur_strength;
+	float blur_mask = clamp(tilt_mask * tilt_blur_strength + edge_mask + foreground_mask, 0.0, 1.0);
+	vec3 tilt_blurred = textureLod(screen_texture, SCREEN_UV, blur_mask * tilt_blur_mip_level).rgb;
+	color = mix(color, mix(soft_focus, tilt_blurred, 0.88), blur_mask);
 
 	vec3 bloom = bright_sample(SCREEN_UV) * 0.4;
 	bloom += bright_sample(SCREEN_UV + vec2(texel.x * 3.0, 0.0)) * 0.15;

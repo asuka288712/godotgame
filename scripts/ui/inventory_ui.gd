@@ -3,6 +3,7 @@ extends Control
 
 const UI_FONT := preload("res://assets/fonts/font.ttf")
 const ITEM_ATLAS := preload("res://assets/sucai/tilemap/RPG_Fantasy_Starter_Pack.png")
+const MOUSE_FRUIT_ICON := preload("res://assets/sprite/items/鼠儿果.png")
 const PLAYER_SCENE := preload("res://scenes/player.tscn")
 const LINGER_SCENE := preload("res://scenes/zhao_linger.tscn")
 # 图集为 512×512 的 8×8 格；每格正好是 64 像素。
@@ -57,6 +58,10 @@ var _item_icon_cells := {
 	"布衣": Vector2i(2, 0), # 旅行背包，作为防具图标
 	"青玉佩": Vector2i(5, 4), # 青色晶石饰品
 }
+var _item_icon_regions := {
+	# 鼠儿果原图的有效内容在左上角，背包中也只显示果子本身。
+	"鼠儿果": Rect2(0, 0, 42, 36),
+}
 
 func _ready() -> void:
 	visible = false
@@ -88,13 +93,14 @@ func open() -> void:
 	visible = true
 	GameData.current_state = GameData.GameState.PAUSED
 	_refresh()
+	preload("res://scripts/ui/ui_motion.gd").reveal(self, 0.24)
 	var below_screen := Vector2(0.0, _slide_distance())
 	_inventory_window.position = _inventory_rest_position + below_screen
 	_equipment_window.position = _equipment_rest_position + below_screen
 	_transition = create_tween().set_parallel(true)
 	_transition.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	_transition.tween_property(_inventory_window, "position", _inventory_rest_position, 0.38)
-	_transition.tween_property(_equipment_window, "position", _equipment_rest_position, 0.38)
+	_transition.tween_property(_equipment_window, "position", _equipment_rest_position, 0.38).set_delay(0.045)
 
 func close() -> void:
 	if _is_closing:
@@ -102,7 +108,6 @@ func close() -> void:
 	if _transition:
 		_transition.kill()
 	_is_closing = true
-	GameData.current_state = GameData.GameState.EXPLORE
 	var below_screen := Vector2(0.0, _slide_distance())
 	_transition = create_tween().set_parallel(true)
 	_transition.set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -111,6 +116,7 @@ func close() -> void:
 	_transition.chain().tween_callback(_finish_close)
 
 func _finish_close() -> void:
+	GameData.current_state = GameData.GameState.EXPLORE
 	visible = false
 	_is_closing = false
 	_inventory_window.position = _inventory_rest_position
@@ -125,6 +131,7 @@ func _refresh() -> void:
 	_refresh_categories()
 	_refresh_party_tabs()
 	for child in _item_grid.get_children():
+		_item_grid.remove_child(child)
 		child.queue_free()
 	if _selected_category == "技能书":
 		_refresh_skill_book()
@@ -149,6 +156,7 @@ func _refresh_categories() -> void:
 	_category_skill_book.button_pressed = _selected_category == "技能书"
 
 func _select_category(category: String) -> void:
+	preload("res://scripts/ui/ui_motion.gd").reveal(_item_grid, 0.18)
 	_selected_category = category
 	_selected_item = null
 	_selected_skill = null
@@ -221,11 +229,17 @@ func _make_skill_slot(skill) -> Button:
 	button.add_theme_color_override("font_pressed_color", Color("70401f"))
 	button.add_theme_color_override("font_outline_color", Color("fff3d2"))
 	button.add_theme_constant_override("outline_size", 2)
-	button.text = "%s\n消耗 %d 神" % [skill.skill_name, skill.mp_cost]
+	button.text = "%s\n消耗 %d 真气" % [skill.skill_name, skill.mp_cost]
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return button
 
-func _icon_for_item(item_name: String) -> AtlasTexture:
+
+func _icon_for_item(item_name: String) -> Texture2D:
+	if _item_icon_regions.has(item_name):
+		var cropped := AtlasTexture.new()
+		cropped.atlas = MOUSE_FRUIT_ICON
+		cropped.region = _item_icon_regions[item_name]
+		return cropped
 	var cell: Vector2i = _item_icon_cells.get(item_name, Vector2i(0, 0))
 	var icon := AtlasTexture.new()
 	icon.atlas = ITEM_ATLAS
@@ -241,8 +255,9 @@ func _refresh_equipment_panel() -> void:
 	if GameData.party.is_empty():
 		return
 	var member = GameData.party[_selected_party_index]
-	_member_name.text = "%s的装备" % member.char_name
+	_member_name.text = "%s  ·  Lv.%d" % [member.char_name, member.level]
 	_stats_label.text = "攻击 %d   防御 %d   身法 %d" % [GameData.get_stat(member, "attack"), GameData.get_stat(member, "defense"), GameData.get_stat(member, "speed")]
+	_stats_label.text += "\n" + GameData.experience_text(member)
 	_refresh_character_preview(member.char_name)
 	var slot_buttons := {
 		"weapon": _weapon_slot,
@@ -315,7 +330,7 @@ func _show_skill_detail(skill) -> void:
 	_selected_skill = skill
 	_selected_item = null
 	_refresh_selected_item_icon()
-	_detail_label.text = "%s\n%s\n消耗：%d 神" % [skill.skill_name, skill.description, skill.mp_cost]
+	_detail_label.text = "%s\n%s\n消耗：%d 真气" % [skill.skill_name, skill.description, skill.mp_cost]
 
 func _refresh_selected_item_icon() -> void:
 	_selected_item_icon.visible = _selected_item != null
@@ -323,8 +338,9 @@ func _refresh_selected_item_icon() -> void:
 		_selected_item_icon.texture = _icon_for_item(_selected_item.item_name)
 
 func _input(event: InputEvent) -> void:
+	if event.is_echo(): return
 	if not visible:
 		return
-	if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
+	if event.is_action_pressed("interact") or event.is_action_pressed("toggle_inventory"):
 		close()
 		get_viewport().set_input_as_handled()

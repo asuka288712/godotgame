@@ -3,11 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d340qyeyyrb0x"
-path.s3tc="res://.godot/imported/kezhan_chinese_cabinet_nor_gl.png-4eca5923d21b0b003b00baf20455a4ff.s3tc.ctex"
-metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
+valid=false
 generator_parameters={
 "md5": "f17dcc1272787fd0e80676a3b74f8508"
 }
@@ -15,7 +11,6 @@ generator_parameters={
 [deps]
 
 source_file="res://scenes/kezhan/kezhan_chinese_cabinet_nor_gl.png"
-dest_files=["res://.godot/imported/kezhan_chinese_cabinet_nor_gl.png-4eca5923d21b0b003b00baf20455a4ff.s3tc.ctex"]
 
 [params]
 

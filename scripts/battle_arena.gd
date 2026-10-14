@@ -18,7 +18,7 @@ const PARTY_HOME_SLOTS := [
 	Vector3(-2.8, 0.10264492, 0.8), Vector3(-4.712226, 1.1435564, 0.41699386),
 	Vector3(-1.55, 0.28, -0.62), Vector3(-3.45, 0.52, -1.28),
 ]
-# These values preserve the transforms you tuned in battle_arena.tscn.
+# 缩放和朝向仍由类型决定；出生位置改由 battle_arena.tscn 的 Marker3D 直接控制。
 const ENEMY_LAYOUTS := [
 	# 前排两只都上移 0.12，避免脚部与地面轻微穿模。
 	{"position": Vector3(3.2, 1.22, -0.15), "scale": Vector3(10.0, 10.0, 10.0), "flip_h": false},
@@ -41,6 +41,11 @@ var _enemy_battlers: Dictionary = {}
 var _enemy_entities: Dictionary = {}
 var _enemy_home_scales: Dictionary = {}
 var _home_positions: Dictionary = {}
+@onready var _enemy_slots: Array[Marker3D] = [
+	$Enemies/EnemySlots/EnemySlot_01, $Enemies/EnemySlots/EnemySlot_02,
+	$Enemies/EnemySlots/EnemySlot_03, $Enemies/EnemySlots/EnemySlot_04,
+	$Enemies/EnemySlots/EnemySlot_05,
+]
 var _victory_tween: Tween
 var _target_selection_active := false
 var _targeting_enemies := true
@@ -107,7 +112,7 @@ func play_attack_animation(attacker_name: String, target_name: String) -> void:
 	tween.tween_interval(maxf(attack_duration - impact_time, 0.0))
 	tween.tween_property(attacker_entity, "global_position", home, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	if animated_attacker:
-		tween.tween_callback(func(): animated_attacker.play(&"battle_idle") if attacker_name == "赵灵儿" else animated_attacker.play(&"idle"))
+		tween.tween_callback(func(): _play_party_rest_animation(attacker_name))
 	tween.tween_callback(func():
 		_active_attack_tweens.erase(attacker_name)
 		_active_attack_targets.erase(attacker_name)
@@ -141,8 +146,8 @@ func _play_mutual_miss_animation(attacker_name: String, target_name: String, att
 	tween.tween_property(attacker_entity, "position", attacker_home, 0.34).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_property(target_entity, "position", target_home, 0.34).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.chain().tween_callback(func():
-		if attacker_sprite: attacker_sprite.play(&"battle_idle") if attacker_name == "赵灵儿" else attacker_sprite.play(&"idle")
-		if target_sprite: target_sprite.play(&"battle_idle") if target_name == "赵灵儿" else target_sprite.play(&"idle")
+		if attacker_sprite: _play_party_rest_animation(attacker_name)
+		if target_sprite: _play_party_rest_animation(target_name)
 		attack_animation_finished.emit(attacker_name)
 		attack_animation_finished.emit(target_name)
 	)
@@ -152,7 +157,7 @@ func play_li_magic_cast() -> void:
 		_li_xiaoyao.play(&"magic")
 
 func finish_li_magic_cast() -> void:
-	_li_xiaoyao.play(&"idle")
+	_play_party_rest_animation("李逍遥")
 
 func play_linger_magic_cast() -> void:
 	var frames := SpriteFrames.new()
@@ -168,7 +173,7 @@ func play_linger_magic_cast() -> void:
 
 func finish_linger_magic_cast() -> void:
 	_zhao_linger.sprite_frames = _linger_idle_frames
-	_zhao_linger.play(&"battle_idle")
+	_play_party_rest_animation("赵灵儿")
 
 func flash_battler(target_name: String) -> void:
 	var battler: SpriteBase3D = _get_battler(target_name)
@@ -177,23 +182,25 @@ func flash_battler(target_name: String) -> void:
 	var animated := battler as AnimatedSprite3D
 	if animated and animated.sprite_frames and animated.sprite_frames.has_animation(&"hit"):
 		animated.play(&"hit")
-		await get_tree().create_timer(_animation_duration(animated, &"hit")).timeout
-		if animated.sprite_frames.has_animation(&"idle"):
-			animated.play(&"idle")
+		await get_tree().create_timer(_animation_duration(animated, &"hit"), false).timeout
+		# 受击播完才允许回待机；强制恢复不会被 hit 的保护分支拦截。
+		_play_party_rest_animation(target_name, true)
 	var tween := create_tween()
 	tween.tween_property(battler, "modulate", Color(1.0, 0.22, 0.22, 1.0), 0.06)
 	tween.tween_property(battler, "modulate", Color.WHITE, 0.18)
 
 func defeat_battler(target_name: String) -> void:
-	if target_name == "李逍遥" or target_name == "赵灵儿":
+	var battler: SpriteBase3D = _get_battler(target_name)
+	if not battler or not battler.visible:
 		return
-	var enemy: SpriteBase3D = _get_battler(target_name)
-	if not enemy or not enemy.visible:
-		return
-	var animated_enemy := enemy as AnimatedSprite3D
-	if animated_enemy and animated_enemy.sprite_frames and animated_enemy.sprite_frames.has_animation(&"die"):
-		animated_enemy.play(&"die")
-		await get_tree().create_timer(_animation_duration(animated_enemy, &"die")).timeout
+	var animated_battler := battler as AnimatedSprite3D
+	if animated_battler and animated_battler.sprite_frames and animated_battler.sprite_frames.has_animation(&"die"):
+		animated_battler.play(&"die")
+		# 我方死亡保留倒地画面；敌人播放完整死亡动画后再淡出。
+		if target_name == "李逍遥" or target_name == "赵灵儿":
+			return
+		await get_tree().create_timer(_animation_duration(animated_battler, &"die"), false).timeout
+	var enemy := battler
 	var tween := create_tween()
 	tween.tween_property(enemy, "modulate", Color(0.35, 0.33, 0.30, 1.0), 0.10)
 	var enemy_entity := _entity_for_battler(enemy)
@@ -204,6 +211,37 @@ func defeat_battler(target_name: String) -> void:
 	tween.parallel().tween_property(enemy_entity, "position:y", enemy_entity.position.y - 0.35, 0.36)
 	tween.tween_property(enemy, "modulate:a", 0.0, 0.16)
 	tween.tween_callback(func(): enemy_entity.visible = false)
+
+func _play_party_rest_animation(character_name: String, force_restore := false) -> void:
+	var battler := _get_battler(character_name) as AnimatedSprite3D
+	if not battler or not battler.sprite_frames:
+		return
+	# 敌人的攻击/受击结束后同样要回到 idle；此前这里直接 return，
+	# 导致它们会卡在 attack 动画的最后一帧。
+	if character_name not in ["李逍遥", "赵灵儿"]:
+		# ATB 下敌人可能一边收招、一边被另一人命中；收招不能把受击动画立刻盖掉。
+		if not force_restore and battler.animation == &"hit":
+			return
+		if battler.sprite_frames.has_animation(&"idle"):
+			battler.play(&"idle")
+		return
+	var is_defeated := false
+	var is_danger := false
+	for member in BattleSystem.combat_party:
+		if member.char_name != character_name:
+			continue
+		is_defeated = member.hp <= 0
+		is_danger = not is_defeated and member.hp * 4 <= member.max_hp
+		break
+	# 死亡动画必须停在最后一帧，绝不能被待机或濒死动画覆盖。
+	if is_defeated:
+		return
+	if is_danger and battler.sprite_frames.has_animation(&"danger"):
+		battler.play(&"danger")
+	else:
+		var idle_name: StringName = &"battle_idle" if character_name == "赵灵儿" else &"idle"
+		if battler.sprite_frames.has_animation(idle_name):
+			battler.play(idle_name)
 
 func _animation_duration(sprite: AnimatedSprite3D, animation_name: StringName) -> float:
 	var frames := sprite.sprite_frames
@@ -387,8 +425,8 @@ func _on_battle_started(enemies: Array) -> void:
 	_zhao_linger.rotation = Vector3.ZERO
 	_li_entity.visible = BattleSystem.combat_party.any(func(member): return member.char_name == "李逍遥")
 	_zhao_entity.visible = BattleSystem.combat_party.any(func(member): return member.char_name == "赵灵儿")
-	_li_xiaoyao.play(&"idle")
-	_zhao_linger.play(&"battle_idle")
+	_play_party_rest_animation("李逍遥")
+	_play_party_rest_animation("赵灵儿")
 	# 战斗开始时把已登场同伴对齐到各自固定站位。
 	for party_index in range(mini(BattleSystem.combat_party.size(), PARTY_HOME_SLOTS.size())):
 		var party_name: String = BattleSystem.combat_party[party_index].char_name
@@ -401,24 +439,27 @@ func _on_battle_started(enemies: Array) -> void:
 		_spawn_enemy(enemies[index], index)
 
 func _spawn_enemy(enemy_data, index: int) -> void:
+	if index >= _enemy_slots.size():
+		return
 	# 同类怪物会以 #2、#3 编号，显示和命中各自独立，但仍使用同一份怪物场景。
 	var base_name: String = enemy_data.char_name.split("#")[0]
 	var scene: PackedScene = ENEMY_SCENES.get(base_name, ENEMY_SCENES["死士"])
 	var entity := scene.instantiate() as Node3D
 	var layout: Dictionary = ENEMY_LAYOUTS[min(index, ENEMY_LAYOUTS.size() - 1)]
 	entity.name = "Enemy_%d_%s" % [index + 1, enemy_data.char_name]
-	entity.position = layout["position"]
 	var visual_scale: Vector3 = layout["scale"]
 	# 蘑菇怪和蜜蜂精的画面尺寸独立于队列站位，避免换了测试顺序就缩小。
 	if base_name in ["蘑菇怪", "蜜蜂精"]:
 		visual_scale = Vector3(10.0, 10.0, 10.0)
 	entity.scale = visual_scale
 	# 蘑菇维持原本的落地高度；蜜蜂作为飞行单位悬在地面上方。
-	if base_name == "蘑菇怪":
-		entity.position.y = maxf(entity.position.y, 1.22)
-	elif base_name == "蜜蜂精":
-		entity.position.y += 1.15
 	_enemy_container.add_child(entity)
+	entity.global_position = _enemy_slots[index].global_position
+	# 蘑菇和蜜蜂的脚底/飞行高度作为素材修正，水平出生点仍完全由 Marker 控制。
+	if base_name == "蘑菇怪":
+		entity.global_position.y = maxf(entity.global_position.y, 1.22)
+	elif base_name == "蜜蜂精":
+		entity.global_position.y += 1.15
 	var sprite := entity.get_node_or_null("AnimatedSprite3D") as AnimatedSprite3D
 	if not sprite:
 		entity.queue_free()
@@ -452,6 +493,9 @@ func _on_battle_ended(victory: bool) -> void:
 		return
 	if _victory_tween:
 		_victory_tween.kill()
+	# 战败时先让李逍遥/赵灵儿的 die 完整走完（李逍遥 4 帧约 1 秒），
+	# 再收起战场，避免最后一击把死亡动画立刻切没。
+	await get_tree().create_timer(1.05, false).timeout
 	_li_entity.visible = false
 	_zhao_entity.visible = false
 	for entity in _enemy_entities.values():

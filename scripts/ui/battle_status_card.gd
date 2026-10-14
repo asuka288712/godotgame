@@ -25,9 +25,9 @@ func setup(battler, is_enemy: bool, font: Font, portrait_paths: Dictionary, stat
 	initial.text = battler.char_name.left(1)
 	initial.visible = avatar.texture == null
 	_set_label($NameLabel, battler.char_name, font, 17, Color(1.0, 0.85, 0.60) if is_enemy else Color(0.78, 0.95, 1.0))
-	_set_resource_bar($HPBar, $HPValue, "精", battler.hp, battler.max_hp, "hp", Color(0.84, 0.22, 0.19), font)
+	_set_resource_bar($HPBar, $HPValue, "体力", battler.hp, battler.max_hp, "hp", Color(0.84, 0.22, 0.19), font)
 	if has_node("MPBar") and has_node("MPValue"):
-		_set_resource_bar($MPBar, $MPValue, "神", battler.mp, battler.max_mp, "mp", Color(0.18, 0.43, 0.82), font)
+		_set_resource_bar($MPBar, $MPValue, "真气", battler.mp, battler.max_mp, "mp", Color(0.18, 0.43, 0.82), font)
 	_set_statuses(statuses, font)
 
 func _make_head_portrait(texture: Texture2D) -> Texture2D:

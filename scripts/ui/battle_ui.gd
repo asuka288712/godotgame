@@ -6,6 +6,8 @@ signal victory_continue_requested
 const LI_SHOUT_SFX := preload("res://assets/music/sound/ha.mp3")
 const LI_SWORD_SFX := preload("res://assets/music/sound/sw.mp3")
 const LIGHTNING_SFX := preload("res://assets/music/sound/ld.mp3")
+const EARTH_SPELL_SFX := preload("res://assets/music/sound/tz.mp3")
+const FIRE_SPELL_SFX := preload("res://assets/music/sound/yz.mp3")
 const BATTLE_MUSIC := preload("res://assets/music/林坤信 - 势如破竹.mp3")
 const VICTORY_MUSIC := preload("res://assets/music/林坤信 - 得胜令.mp3")
 const BATTLE_FONT := preload("res://assets/fonts/font.ttf")
@@ -52,6 +54,7 @@ const HEAL_FRAME_SIZE := Vector2(192, 192)
 @onready var _action_timeline_runners: Control = $ActionTimeline/Runners
 @onready var _cmd_panel: Control = $CmdPanel
 @onready var _sub_menu: Control = $SubMenu
+@onready var _sub_menu_scroll: ScrollContainer = $SubMenu/ScrollContainer
 @onready var _sub_menu_list: VBoxContainer = $SubMenu/ScrollContainer/List
 @onready var _sub_menu_back: Button = $SubMenu/BackButton
 @onready var _target_panel: VBoxContainer = $TargetPanel
@@ -159,6 +162,8 @@ func _on_battle_started(enemies: Array) -> void:
 	_victory_panel.visible = false
 	_set_battle_hud_visible(true)
 	_hide_all_panels()
+	if is_instance_valid(GameData._scene_title_layer):
+		GameData._scene_title_layer.hide()
 	_play_battle_music()
 	_build_battle_stage(enemies)
 	_update_party_panel()
@@ -171,15 +176,20 @@ func _on_battle_ended(victory: bool) -> void:
 	elif victory:
 		_play_victory_music()
 		_set_battle_hud_visible(false)
+		_show_experience_rewards()
 		_victory_panel.visible = true
 		# Do not accept the mouse-up from the action that delivered the final hit.
-		await get_tree().create_timer(0.35).timeout
+		await get_tree().create_timer(0.35, false).timeout
 		_awaiting_victory_click = true
 	else:
 		_turn_label.text = "战斗失败……"
 	_hide_all_panels()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		if _go_back_one_battle_menu():
+			get_viewport().set_input_as_handled()
+			return
 	_handle_target_input(event)
 
 
@@ -290,7 +300,7 @@ func _on_damage_dealt(target_name: String, amount: int, is_heal: bool) -> void:
 		return
 	_show_damage_number(target_name, amount, "yellow" if _is_enemy_battler(target_name) else "red")
 	var arena := _get_battle_arena()
-	if _is_defeated_enemy(target_name):
+	if _is_defeated_battler(target_name):
 		if arena:
 			arena.defeat_battler(target_name)
 	elif arena:
@@ -317,15 +327,18 @@ func _on_attack_missed(target_name: String) -> void:
 	tween.chain().tween_callback(miss.queue_free)
 
 func _on_cast_interrupted(target_name: String) -> void:
+	# 除了战场飘字，也在行动条给出明确反馈，避免被特效或状态面板遮住。
+	_turn_label.text = "—— %s 的读条被打断！——" % target_name
+	_action_timeline_title.text = "%s 被打断，行动条回到起点" % target_name
 	var interrupt := Label.new()
 	interrupt.text = "打断！"
-	interrupt.position = _effect_center_for(target_name) + Vector2(-52, -164)
-	interrupt.size = Vector2(104, 42)
+	interrupt.position = _effect_center_for(target_name) + Vector2(-66, -108)
+	interrupt.size = Vector2(132, 54)
 	interrupt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	interrupt.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	interrupt.z_index = 21
+	interrupt.z_index = 100
 	interrupt.add_theme_font_override("font", _font)
-	interrupt.add_theme_font_size_override("font_size", 27)
+	interrupt.add_theme_font_size_override("font_size", 34)
 	interrupt.add_theme_color_override("font_color", Color(1.0, 0.48, 0.25))
 	interrupt.add_theme_color_override("font_outline_color", Color(0.20, 0.04, 0.02))
 	interrupt.add_theme_constant_override("outline_size", 5)
@@ -396,7 +409,7 @@ func _play_wind_projectile(caster_name: String, target_name: String) -> void:
 	flight.tween_callback(wind.queue_free)
 	for frame_number in range(WIND_FRAME_COUNT):
 		wind.texture = load("res://assets/effects/wind/skill002_hit_%04d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.075).timeout
+		await get_tree().create_timer(0.075, false).timeout
 
 func _on_lightning_strike_requested(target_name: String) -> void:
 	_play_one_shot_sound(LIGHTNING_SFX)
@@ -404,8 +417,10 @@ func _on_lightning_strike_requested(target_name: String) -> void:
 
 func _on_elemental_spell_requested(spell_name: String, target_name: String) -> void:
 	if spell_name == "炎咒":
+		_play_one_shot_sound(FIRE_SPELL_SFX)
 		_play_elemental_effect(target_name, "res://assets/effects/fire/%02d.png", FIRE_FRAME_COUNT, Vector2(280, 280), 0.06)
 	elif spell_name == "土咒":
+		_play_one_shot_sound(EARTH_SPELL_SFX)
 		_play_elemental_effect(target_name, "res://assets/effects/mud/effect_d05_%02d.png", MUD_FRAME_COUNT, Vector2(270, 180), 0.10)
 	elif spell_name == "流星火雨":
 		_play_elemental_effect(target_name, "res://assets/effects/meteor/%02d.png", METEOR_FRAME_COUNT, Vector2(260, 260), 0.05)
@@ -431,6 +446,7 @@ func _on_sword_slash_requested(attacker_name: String, target_name: String) -> vo
 
 func _play_one_shot_sound(sound: AudioStream) -> void:
 	var player := AudioStreamPlayer.new()
+	player.bus = &"SFX"
 	player.stream = sound
 	add_child(player)
 	player.finished.connect(player.queue_free)
@@ -488,7 +504,7 @@ func _play_sword_slash(attacker_name: String, target_name: String) -> void:
 	_battle_stage.add_child(slash)
 	for frame_number in range(1, SWORD_SLASH_FRAME_COUNT + 1):
 		slash.texture = load("res://assets/effects/sword/attack1_fire%04d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.07).timeout
+		await get_tree().create_timer(0.07, false).timeout
 	slash.queue_free()
 
 func _play_linger_normal_attack_effect(caster_name: String) -> void:
@@ -507,7 +523,7 @@ func _play_linger_normal_attack_effect(caster_name: String) -> void:
 	_battle_stage.add_child(slash)
 	for frame_number in range(1, LINGER_SLASH_FRAME_COUNT + 1):
 		slash.texture = load("res://assets/effects/dsw/battleAttackSkill_21000%d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.075).timeout
+		await get_tree().create_timer(0.075, false).timeout
 	slash.queue_free()
 
 func _play_falling_swords(target_name: String) -> void:
@@ -589,7 +605,7 @@ func _play_tianshi_fufa(target_name: String) -> void:
 	_battle_stage.add_child(effect)
 	for frame_number in range(1, FU_FRAME_COUNT + 1):
 		effect.texture = load("res://assets/effects/fu/%02d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.09).timeout
+		await get_tree().create_timer(0.09, false).timeout
 	effect.queue_free()
 
 	var caster_center := _effect_center_for("李逍遥")
@@ -628,7 +644,7 @@ func _play_healing_effect(target_name: String) -> void:
 		frame.atlas = HEAL_EFFECT_ATLAS
 		frame.region = Rect2(float(frame_number) * HEAL_FRAME_SIZE.x, 0.0, HEAL_FRAME_SIZE.x, HEAL_FRAME_SIZE.y)
 		effect.texture = frame
-		await get_tree().create_timer(0.085).timeout
+		await get_tree().create_timer(0.085, false).timeout
 	effect.queue_free()
 
 func _play_lightning_strike(target_name: String) -> void:
@@ -643,7 +659,7 @@ func _play_lightning_strike(target_name: String) -> void:
 	_battle_stage.add_child(lightning)
 	for frame_number in range(1, LIGHTNING_FRAME_COUNT + 1):
 		lightning.texture = load("res://assets/effects/flash/%02d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.05).timeout
+		await get_tree().create_timer(0.05, false).timeout
 	lightning.queue_free()
 
 func _play_elemental_effect(target_name: String, path_pattern: String, frame_count: int, effect_size: Vector2, frame_time: float) -> void:
@@ -657,7 +673,7 @@ func _play_elemental_effect(target_name: String, path_pattern: String, frame_cou
 	_battle_stage.add_child(effect)
 	for frame_number in range(1, frame_count + 1):
 		effect.texture = load(path_pattern % frame_number) as Texture2D
-		await get_tree().create_timer(frame_time).timeout
+		await get_tree().create_timer(frame_time, false).timeout
 	effect.queue_free()
 
 func _play_lightning_impact(target_name: String) -> void:
@@ -671,7 +687,7 @@ func _play_lightning_impact(target_name: String) -> void:
 	_battle_stage.add_child(impact)
 	for frame_number in range(1, LIGHTNING_IMPACT_FRAME_COUNT + 1):
 		impact.texture = load("res://assets/effects/ak/battleAttackSkill_20_2000%d.png" % frame_number) as Texture2D
-		await get_tree().create_timer(0.08).timeout
+		await get_tree().create_timer(0.08, false).timeout
 	impact.queue_free()
 
 func _effect_center_for(target_name: String) -> Vector2:
@@ -713,6 +729,9 @@ func _is_enemy_battler(character_name: String) -> bool:
 func _is_defeated_enemy(character_name: String) -> bool:
 	return BattleSystem.battle_enemies.any(func(enemy): return enemy.char_name == character_name and enemy.hp <= 0)
 
+func _is_defeated_battler(character_name: String) -> bool:
+	return _is_defeated_enemy(character_name) or BattleSystem.combat_party.any(func(member): return member.char_name == character_name and member.hp <= 0)
+
 # ============================================================
 #  指令菜单
 # ============================================================
@@ -725,8 +744,32 @@ func _cancel_sub_menu() -> void:
 		BattleSystem.selected_item = null
 	_show_command_menu()
 
+func _go_back_one_battle_menu() -> bool:
+	match BattleSystem.state:
+		BattleSystem.BState.SELECT_TARGET:
+			var arena := _get_battle_arena()
+			if arena and arena.has_method("cancel_target_selection"):
+				arena.cancel_target_selection()
+			match BattleSystem.selected_action:
+				"skill":
+					BattleSystem.state = BattleSystem.BState.SELECT_SKILL
+					_show_skill_menu()
+				"item":
+					BattleSystem.state = BattleSystem.BState.SELECT_ITEM
+					_show_item_menu()
+				_:
+					BattleSystem.state = BattleSystem.BState.SELECT_COMMAND
+					BattleSystem.selected_action = ""
+					_show_command_menu()
+			return true
+		BattleSystem.BState.SELECT_SKILL, BattleSystem.BState.SELECT_ITEM:
+			_cancel_sub_menu()
+			return true
+	return false
+
 func _show_command_menu() -> void:
 	_hide_all_panels()
+	preload("res://scripts/ui/ui_motion.gd").reveal(_cmd_panel, 0.16)
 	_cmd_panel.visible = true
 	_command_artwork.visible = true
 	_command_artwork.texture = COMMAND_ART["default"]
@@ -757,20 +800,25 @@ func _show_skill_menu() -> void:
 
 	for skill in _current_char.skills:
 		var btn := Button.new()
-		var cast_hint := "  读条%.1fs" % skill.cast_time if skill.cast_time > 0.0 else "  即时"
-		btn.text = "　%s  MP%d%s" % [skill.skill_name, skill.mp_cost, cast_hint]
+		# 技能列表有滚动条时可用宽度更窄；读条说明放进提示，避免长文字把 VBox 撑出面板。
+		btn.text = "%s  %d气" % [skill.skill_name, skill.mp_cost]
+		btn.tooltip_text = "%s\n消耗 %d 真气%s\n%s" % [skill.skill_name, skill.mp_cost, " · 读条 %.1f 秒" % skill.cast_time if skill.cast_time > 0.0 else " · 即时", skill.description]
 		btn.custom_minimum_size = Vector2(0, 28)
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.flat = true
 		btn.add_theme_font_override("font", _font)
-		btn.add_theme_font_size_override("font_size", 13)
+		btn.add_theme_font_size_override("font_size", 11)
+		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		btn.add_theme_color_override("font_color", Color(0.34, 0.16, 0.05))
 		btn.add_theme_color_override("font_hover_color", Color(0.52, 0.28, 0.09))
 		btn.add_theme_color_override("font_pressed_color", Color(0.46, 0.23, 0.07))
 		btn.add_theme_color_override("font_focus_color", Color(0.52, 0.28, 0.09))
+		# 法力不足时仍显示技能，改为灰色且不可点击，方便玩家知道该技能存在及所需 MP。
+		btn.add_theme_color_override("font_disabled_color", Color(0.42, 0.42, 0.42))
 		btn.disabled = skill.mp_cost > _current_char.mp
 		btn.pressed.connect(_on_skill_pressed.bind(skill))
 		_sub_menu_list.add_child(btn)
+	_reset_sub_menu_scroll()
 
 func _on_skill_pressed(skill) -> void:
 	BattleSystem.select_skill(skill)
@@ -800,12 +848,26 @@ func _show_item_menu() -> void:
 		btn.add_theme_color_override("font_focus_color", Color(0.52, 0.28, 0.09))
 		btn.pressed.connect(_on_item_pressed.bind(item))
 		_sub_menu_list.add_child(btn)
+	_reset_sub_menu_scroll()
+
+func _reset_sub_menu_scroll() -> void:
+	_sub_menu_scroll.scroll_horizontal = 0
+	_sub_menu_scroll.scroll_vertical = 0
+	# 容器在本帧末才会根据新增按钮重新计算高度，因此再重置一次，
+	# 防止从物品栏切回技能时保留旧的滚动位置。
+	_sub_menu_scroll.call_deferred("set_scroll_vertical", 0)
 
 func _on_item_pressed(item) -> void:
 	BattleSystem.select_item(item)
 	_show_target_menu(false)
 
 func _show_target_menu(is_enemy_target: bool) -> void:
+	# 只剩一个存活敌人时直接锁定，省去一次没有意义的点选。
+	if is_enemy_target:
+		var alive_enemies: Array = BattleSystem.battle_enemies.filter(func(enemy): return enemy.hp > 0)
+		if alive_enemies.size() == 1:
+			_on_target_pressed(BattleSystem.battle_enemies.find(alive_enemies[0]), true)
+			return
 	_hide_all_panels()
 	_targeting_enemies = is_enemy_target
 	_turn_label.text = "请选择%s（移到角色上高亮，左键确认）" % ("敌人" if is_enemy_target else "队友")
@@ -844,6 +906,8 @@ func _update_enemy_panel(enemies: Array) -> void:
 				"description": "易伤：受到的伤害提高。",
 				"color": Color(1.0, 0.67, 0.22),
 			})
+		if BattleSystem.is_sleeping(e.char_name):
+			statuses.append({"symbol": "睡", "description": "昏睡：还会跳过 %d 次行动。" % BattleSystem.sleeping_turns_remaining(e.char_name), "color": Color(0.55, 0.72, 1.0)})
 		if e.hp <= 0:
 			statuses.append({"symbol": "败", "description": "已被击败，无法继续行动。", "color": Color(0.55, 0.55, 0.55)})
 		_enemy_panel.add_child(_make_status_card(e, true, statuses))
@@ -881,3 +945,29 @@ func _set_battle_hud_visible(should_show: bool) -> void:
 
 func _clear_children(node: Node) -> void:
 	for c in node.get_children(): c.free()
+
+func _show_experience_rewards() -> void:
+	var reward_label := _victory_panel.get_node_or_null("ExperienceRewards") as Label
+	if not reward_label:
+		reward_label = Label.new()
+		reward_label.name = "ExperienceRewards"
+		reward_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+		reward_label.position = Vector2(-370, 240)
+		reward_label.size = Vector2(740, 200)
+		reward_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		reward_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		reward_label.add_theme_font_override("font", _font)
+		reward_label.add_theme_font_size_override("font_size", 20)
+		reward_label.add_theme_color_override("font_color", Color("ffe4a3"))
+		reward_label.add_theme_color_override("font_shadow_color", Color.BLACK)
+		reward_label.add_theme_constant_override("shadow_offset_x", 2)
+		reward_label.add_theme_constant_override("shadow_offset_y", 2)
+		_victory_panel.add_child(reward_label)
+	var lines: PackedStringArray = []
+	for reward in BattleSystem.victory_rewards:
+		lines.append("%s  ·  经验 +%d" % [reward.name, reward.experience])
+		if reward.after > reward.before:
+			lines.append("升级！Lv.%d → Lv.%d  体力 +%d  真气 +%d" % [reward.before, reward.after, reward.gains.max_hp, reward.gains.max_mp])
+			lines.append("攻击 +%d  防御 +%d  身法 +%d" % [reward.gains.attack, reward.gains.defense, reward.gains.speed])
+		reward_label.text = "\n".join(lines)
+	preload("res://scripts/ui/ui_motion.gd").reveal(reward_label, 0.35)

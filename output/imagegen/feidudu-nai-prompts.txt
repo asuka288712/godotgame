@@ -1,0 +1,14 @@
+NovelAI 正面提示词（基础角色人设）
+masterpiece, best quality, character sheet, reference sheet, multiple views, front view, side view, back view, full body, standing, solo character, original character, anthropomorphic cat, bipedal, chibi, 2.5 heads tall, oversized head, small torso, balanced proportions, slightly rounded body, defined waist, short limbs, visible gap between legs, golden yellow fur, cream-colored circular face, cream belly patch, cream paws, orange forehead markings, striped cat tail, small triangular ears, pink inner ears, hood-like head silhouette, tiny ahoge, large round dark brown eyes, eye highlights, tiny nose, small w-shaped mouth, blush, cute, soft fluffy fur, gentle expression, waving, expression sheet, happy, sleepy, pouting, cream background, clean layout, soft lighting
+
+外卖员套装追加词（保留角色外貌段，替换 character sheet / multiple views / expression sheet 等布局词）
+delivery courier, yellow cat-ear helmet, chin strap, yellow short vest, orange trim, reflective piping, paw print emblem, insulated delivery backpack, compact square backpack, wrist terminal, small yellow boots, orange soles, full body, standing, waving, outfit reference sheet, equipment showcase, front view, back view, cream background
+
+负面提示词 / Undesired Content
+lowres, worst quality, blurry, bad anatomy, extra limbs, extra arms, extra legs, extra tail, missing limbs, malformed paws, fused legs, cropped, out of frame, obese, overweight, fat belly, huge belly, spherical body, pear-shaped body, thick waist, muscular, realistic human, human face, human hands, long neck, rabbit ears, kangaroo, quadruped, blue fur, purple fur, armor, weapon, text, watermark, logo, signature, cluttered background
+
+可选风格追加：
+偏游戏3D / 玩偶：3d, soft plush texture, toy-like, soft studio lighting
+偏日系人设：anime coloring, clean lineart, soft shading
+
+说明：这些标签描述目标视觉，不保证所有 NAI 模型版本对每个标签都有同样响应。艾露猫只作少量轮廓与脸部灵感，因此基础提示词未直接加入作品角色标签，避免覆盖金黄配色和原创形象。多视图一致性建议搭配最终人设图作为参考；准确中文标题可后期排版。

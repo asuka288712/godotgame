@@ -45,6 +45,7 @@ func _add_walk_animation(frames: SpriteFrames, animation_name: StringName, path_
 	frames.set_animation_speed(animation_name, 24.0)
 	frames.set_animation_loop(animation_name, true)
 	for frame_number in range(1, frame_count + 1):
+		if not ResourceLoader.exists(path_pattern % frame_number): continue
 		var texture := load(path_pattern % frame_number) as Texture2D
 		if texture:
 			frames.add_frame(animation_name, texture)
@@ -60,6 +61,10 @@ func _on_player_far() -> void:
 	_prompt_icon.visible = false
 
 func _process(_delta: float) -> void:
+	if StoryManager.stage < 12:
+		visible = false
+		_prompt_icon.visible = false
+		return
 	_update_prompt_icon_position()
 	if _follow_target:
 		_prompt_icon.visible = false
@@ -80,6 +85,7 @@ func _update_prompt_icon_position() -> void:
 	_prompt_icon.global_position = global_position + Vector3.UP * (visual_height * 0.55 + 0.35)
 
 func try_interact(player_position: Vector3 = Vector3.INF) -> Dictionary:
+	if StoryManager.stage < 12: return {}
 	var player_in_range := _player_nearby
 	if player_position != Vector3.INF:
 		var offset: Vector3 = global_position - player_position

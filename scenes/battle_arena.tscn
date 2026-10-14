@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://btuqvrlua5my2" path="res://scenes/zhao_linger.tscn" id="3_linger"]
 [ext_resource type="PackedScene" uid="uid://cwt300yk6i4l6" path="res://assets/sprite/bd/building.glb" id="4_0rklv"]
 [ext_resource type="Texture2D" uid="uid://0weadgoghnuw" path="res://assets/sucai/Trees/Yellow-Tree.png" id="5_j3iaf"]
+[ext_resource type="Texture2D" uid="uid://c3a1jvpe43ebf" path="res://assets/sprite/items/buliding.png" id="7_h3p5w"]
 
 [sub_resource type="Environment" id="ArenaEnvironment"]
 background_mode = 1
@@ -14,7 +15,10 @@ ambient_light_source = 3
 ambient_light_color = Color(0.78, 0.84, 0.88, 1)
 ambient_light_energy = 0.95
 tonemap_mode = 2
-glow_intensity = 0.7
+glow_enabled = true
+glow_intensity = 0.48
+glow_strength = 0.82
+glow_bloom = 0.1
 
 [sub_resource type="StandardMaterial3D" id="GroundMaterial"]
 albedo_color = Color(0.5, 0.46, 0.36, 1)
@@ -69,6 +73,23 @@ mesh = SubResource("CircleMesh")
 
 [node name="Enemies" type="Node3D" parent="." unique_id=1095847088]
 
+[node name="EnemySlots" type="Node3D" parent="Enemies" unique_id=1277737285]
+
+[node name="EnemySlot_01" type="Marker3D" parent="Enemies/EnemySlots" unique_id=1571480625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7039549, 1.0387971, 2.9140658)
+
+[node name="EnemySlot_02" type="Marker3D" parent="Enemies/EnemySlots" unique_id=656698239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7034965, 0.842023, 2.9965239)
+
+[node name="EnemySlot_03" type="Marker3D" parent="Enemies/EnemySlots" unique_id=637661439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5369263, 0.8365616, -0.6719456)
+
+[node name="EnemySlot_04" type="Marker3D" parent="Enemies/EnemySlots" unique_id=2038261462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7182946, 1.02, 0.09040618)
+
+[node name="EnemySlot_05" type="Marker3D" parent="Enemies/EnemySlots" unique_id=1435117668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9029317, 0.8413744, 0.82868147)
+
 [node name="LiXiaoyao" parent="." unique_id=611882122 instance=ExtResource("2_li")]
 transform = Transform3D(0.65256554, 0, 0, 0, 0.65256554, 0, 0, 0, 1, -2.8, 0.10264492, 0.8)
 script = null
@@ -78,7 +99,7 @@ transform = Transform3D(0.20150964, 0, 0, 0, 0.20150964, 0, 0, 0, 1, -4.712226, 
 script = null
 
 [node name="building" parent="." unique_id=1515509834 instance=ExtResource("4_0rklv")]
-transform = Transform3D(-5.380872e-07, 0, -12.31, 0, 12.31, 0, 12.31, 0, -5.380872e-07, -3.766714, 4.3334856, -9.324368)
+transform = Transform3D(-5.380872e-07, 0, -12.31, 0, 12.31, 0, 12.31, 0, -5.380872e-07, -3.766714, 4.3334856, -11.105577)
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=841982733]
 transform = Transform3D(2.16, 0, 0, 0, 2.16, 0, 0, 0, 2.16, -8.812603, 3.3178358, 0)
@@ -107,3 +128,20 @@ alpha_cut = 1
 texture = ExtResource("5_j3iaf")
 region_enabled = true
 region_rect = Rect2(0, 387.0735, 113.484955, 325.56366)
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1633872435]
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D" unique_id=1386568223]
+transform = Transform3D(0.6792927, 0, 0, 0, 0.6792927, 0, 0, 0, 1, 5.6253996, 2.386166, -19.835915)
+alpha_cut = 1
+texture = ExtResource("7_h3p5w")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Node3D" unique_id=834436158]
+transform = Transform3D(0.6792927, 0, 0, 0, 0.6792927, 0, 0, 0, 1, -15.818952, 2.386166, -19.835915)
+alpha_cut = 1
+texture = ExtResource("7_h3p5w")
+
+[node name="Sprite3D3" type="Sprite3D" parent="Node3D" unique_id=463665969]
+transform = Transform3D(0.6792927, 0, 0, 0, 0.6792927, 0, 0, 0, 1, -11.488702, 4.783609, -21.006546)
+alpha_cut = 1
+texture = ExtResource("7_h3p5w")

@@ -145,6 +145,7 @@
 [ext_resource type="Texture2D" uid="uid://bd6k3me2ekck4" path="res://assets/sprite/anime/Lr/attack/magic/012.png" id="67_2jfry"]
 [ext_resource type="Texture2D" uid="uid://bf02u1aqemidw" path="res://assets/sprite/anime/Lr/attack/sw/022.png" id="67_fhlm4"]
 [ext_resource type="Texture2D" uid="uid://cddggxe673lqc" path="res://assets/sprite/anime/Lr/walk/012.png" id="67_wuen2"]
+[ext_resource type="Texture2D" uid="uid://jq1en2lyniml" path="res://assets/sprite/animation/hitlr.png" id="68_dm5a6"]
 [ext_resource type="Texture2D" uid="uid://66lkwija8da2" path="res://assets/sprite/anime/Lr/attack/magic/013.png" id="68_evxpv"]
 [ext_resource type="Texture2D" uid="uid://i1w45ecxwoa6" path="res://assets/sprite/anime/Lr/walk/013.png" id="68_n0dvt"]
 [ext_resource type="Texture2D" uid="uid://cb1oumphvsy3k" path="res://assets/sprite/anime/Lr/walk/014.png" id="69_87klo"]
@@ -231,6 +232,34 @@
 [ext_resource type="Texture2D" uid="uid://c2ci7a65wev8a" path="res://assets/sprite/anime/Lr/walk/walku/023.png" id="105_5rxn0"]
 [ext_resource type="Texture2D" uid="uid://cwsjx14a8e3oc" path="res://assets/sprite/anime/Lr/walk/walku/024.png" id="106_qbnsa"]
 [ext_resource type="Texture2D" uid="uid://dn51fbvsrdgja" path="res://assets/sprite/animation/winl.png" id="230_iqfsv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hj85"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(1920, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfh8c"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(0, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1kqu"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(960, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng3g2"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(1920, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7d4a"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(2880, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjs4m"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(0, 0, 960, 960)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bljv1"]
+atlas = ExtResource("68_dm5a6")
+region = Rect2(960, 0, 960, 960)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4j3yi"]
 animations = [{
@@ -438,6 +467,42 @@ animations = [{
 "loop": 1,
 "name": &"battle_idle",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hj85")
+}],
+"loop": 1,
+"name": &"danger",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qfh8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1kqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ng3g2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7d4a")
+}],
+"loop": false,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjs4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bljv1")
+}],
+"loop": 1,
+"name": &"hit",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -975,7 +1040,7 @@ animations = [{
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_linger"]
-size = Vector3(0.9311401, 0.6259842, 0.13431397)
+size = Vector3(3.2, 8.0, 3.2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
 radius = 4.0
@@ -990,11 +1055,11 @@ shaded = true
 alpha_cut = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_4j3yi")
-animation = &"magic"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1976687773]
-transform = Transform3D(6.024993, 0, 0, 0, 14.342925, 0, 0, 0, 1, -0.19686246, -0.014007509, 0.04502563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023014188, 0.037964344, 0)
 shape = SubResource("BoxShape3D_linger")
 
 [node name="InteractArea" type="Area3D" parent="." unique_id=629857372]

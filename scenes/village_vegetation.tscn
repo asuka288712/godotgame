@@ -1,0 +1,3401 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/camphor.png" id="camphor"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/pine.png" id="pine"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/sapling.png" id="sapling"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/old_tree.png" id="old_tree"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/grass.png" id="grass"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/fern.png" id="fern"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/bush.png" id="bush"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/wildflowers.png" id="wildflowers"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/reeds.png" id="reeds"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/village_forest/moss_stones.png" id="moss_stones"]
+
+[ext_resource type="Script" path="res://scripts/village_vegetation.gd" id="fade"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/font.ttf" id="font"]
+
+[ext_resource type="Texture2D" path="res://assets/generated/terrain/village_gravel_path_tile.png" id="trail_texture"]
+
+[sub_resource type="CylinderShape3D" id="trunk"]
+radius = 0.32
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="soil"]
+albedo_color = Color(0.7, 0.62, 0.46, 1)
+albedo_texture = ExtResource("trail_texture")
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv1_scale = Vector3(0.4, 0.4, 0.4)
+roughness = 1.0
+
+[sub_resource type="CylinderMesh" id="trail_cap"]
+top_radius = 1.48
+bottom_radius = 1.48
+height = 0.016
+radial_segments = 16
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_0"]
+size = Vector2(2.95, 6.0000)
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_1"]
+size = Vector2(2.95, 5.6569)
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_2"]
+size = Vector2(2.95, 4.4721)
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_3"]
+size = Vector2(2.95, 5.3852)
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_4"]
+size = Vector2(2.95, 6.3246)
+material = SubResource("soil")
+
+[sub_resource type="PlaneMesh" id="trail_5"]
+size = Vector2(2.95, 4.1231)
+material = SubResource("soil")
+
+[node name="VillageVegetation" type="Node3D"]
+script = ExtResource("fade")
+
+[node name="Forest" type="Node3D" parent="."]
+
+[node name="Trail" type="Node3D" parent="Forest"]
+
+[node name="Trees" type="Node3D" parent="Forest"]
+
+[node name="GroundPlants" type="Node3D" parent="."]
+
+[node name="Path00" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(12.0, 0.047, 3.0)
+rotation = Vector3(0, 0.00000, 0)
+mesh = SubResource("trail_0")
+cast_shadow = 0
+
+[node name="Path01" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(14.0, 0.047, 8.0)
+rotation = Vector3(0, 0.78540, 0)
+mesh = SubResource("trail_1")
+cast_shadow = 0
+
+[node name="Path02" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(18.0, 0.047, 11.0)
+rotation = Vector3(0, 1.10715, 0)
+mesh = SubResource("trail_2")
+cast_shadow = 0
+
+[node name="Path03" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(21.0, 0.047, 14.5)
+rotation = Vector3(0, 0.38051, 0)
+mesh = SubResource("trail_3")
+cast_shadow = 0
+
+[node name="Path04" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(23.0, 0.047, 20.0)
+rotation = Vector3(0, 0.32175, 0)
+mesh = SubResource("trail_4")
+cast_shadow = 0
+
+[node name="Path05" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(24.5, 0.047, 25.0)
+rotation = Vector3(0, 0.24498, 0)
+mesh = SubResource("trail_5")
+cast_shadow = 0
+
+[node name="Bend00" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(12, 0.047, 0)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend01" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(12, 0.047, 6)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend02" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(16, 0.047, 10)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend03" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(20, 0.047, 12)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend04" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(22, 0.047, 17)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend05" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(24, 0.047, 23)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Bend06" type="MeshInstance3D" parent="Forest/Trail"]
+position = Vector3(25, 0.047, 27)
+mesh = SubResource("trail_cap")
+cast_shadow = 0
+
+[node name="Tree01" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(8.921, 0.02, 11.597)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree01"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree01" groups=["village_canopies"]]
+position = Vector3(0, 2.8560, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0095517
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree02" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(9.401, 0.02, 15.012)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree02"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree02" groups=["village_canopies"]]
+position = Vector3(0, 3.0970, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0103579
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree03" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(8.575, 0.02, 17.973)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree03"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree03" groups=["village_canopies"]]
+position = Vector3(0, 1.9342, 0)
+texture = ExtResource("sapling")
+pixel_size = 0.0070206
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree04" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(9.033, 0.02, 21.063)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree04"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree04" groups=["village_canopies"]]
+position = Vector3(0, 2.8363, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0094858
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree05" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(9.006, 0.02, 24.492)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree05"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree05" groups=["village_canopies"]]
+position = Vector3(0, 2.9086, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0098262
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree06" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(9.281, 0.02, 26.629)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree06"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree06" groups=["village_canopies"]]
+position = Vector3(0, 2.8302, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0094656
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree07" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(12.125, 0.02, 12.083)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree07"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree07" groups=["village_canopies"]]
+position = Vector3(0, 2.9821, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0099735
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree08" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(11.476, 0.02, 15.216)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree08"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree08" groups=["village_canopies"]]
+position = Vector3(0, 2.4143, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0080746
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree09" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(11.645, 0.02, 17.568)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree09"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree09" groups=["village_canopies"]]
+position = Vector3(0, 2.2801, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0077031
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree10" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(12.559, 0.02, 20.448)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree10"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree10" groups=["village_canopies"]]
+position = Vector3(0, 2.7622, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0092382
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree11" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(12.421, 0.02, 24.447)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree11"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree11" groups=["village_canopies"]]
+position = Vector3(0, 2.2416, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0074970
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree12" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(11.536, 0.02, 27.440)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree12"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree12" groups=["village_canopies"]]
+position = Vector3(0, 2.9480, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0099595
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree13" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(15.275, 0.02, 14.529)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree13"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree13" groups=["village_canopies"]]
+position = Vector3(0, 2.8061, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0093851
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree14" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(15.552, 0.02, 18.050)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree14"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree14" groups=["village_canopies"]]
+position = Vector3(0, 2.2169, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0074143
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree15" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(14.427, 0.02, 20.689)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree15"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree15" groups=["village_canopies"]]
+position = Vector3(0, 2.7699, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0092639
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree16" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(15.523, 0.02, 23.781)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree16"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree16" groups=["village_canopies"]]
+position = Vector3(0, 2.4399, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0081603
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree17" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(14.417, 0.02, 26.934)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree17"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree17" groups=["village_canopies"]]
+position = Vector3(0, 2.7663, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0092519
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree18" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(17.604, 0.02, 5.687)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree18"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree18" groups=["village_canopies"]]
+position = Vector3(0, 3.0099, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0100664
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree19" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(18.244, 0.02, 18.021)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree19"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree19" groups=["village_canopies"]]
+position = Vector3(0, 3.0034, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0100449
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree20" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(18.068, 0.02, 21.169)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree20"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree20" groups=["village_canopies"]]
+position = Vector3(0, 2.3203, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0077603
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree21" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(18.273, 0.02, 23.987)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree21"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree21" groups=["village_canopies"]]
+position = Vector3(0, 2.9704, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0099343
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree22" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(18.262, 0.02, 26.484)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree22"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree22" groups=["village_canopies"]]
+position = Vector3(0, 2.9441, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0098464
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree23" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(20.454, 0.02, 6.469)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree23"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree23" groups=["village_canopies"]]
+position = Vector3(0, 1.9389, 0)
+texture = ExtResource("sapling")
+pixel_size = 0.0070377
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree24" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(20.954, 0.02, 8.888)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree24"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree24" groups=["village_canopies"]]
+position = Vector3(0, 2.4723, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0082687
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree25" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(20.672, 0.02, 23.551)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree25"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree25" groups=["village_canopies"]]
+position = Vector3(0, 1.7965, 0)
+texture = ExtResource("sapling")
+pixel_size = 0.0065209
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree26" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(21.101, 0.02, 26.997)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree26"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree26" groups=["village_canopies"]]
+position = Vector3(0, 2.8156, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0094169
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree27" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(23.593, 0.02, 6.448)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree27"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree27" groups=["village_canopies"]]
+position = Vector3(0, 2.8718, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0096048
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree28" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(24.513, 0.02, 8.993)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree28"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree28" groups=["village_canopies"]]
+position = Vector3(0, 2.3829, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0079697
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree29" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(24.056, 0.02, 11.696)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree29"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree29" groups=["village_canopies"]]
+position = Vector3(0, 2.4748, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0083609
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree30" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.497, 0.02, 5.564)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree30"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree30" groups=["village_canopies"]]
+position = Vector3(0, 2.4387, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0081563
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree31" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.583, 0.02, 9.517)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree31"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree31" groups=["village_canopies"]]
+position = Vector3(0, 3.0743, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0103861
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree32" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.564, 0.02, 12.381)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree32"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree32" groups=["village_canopies"]]
+position = Vector3(0, 2.1458, 0)
+texture = ExtResource("sapling")
+pixel_size = 0.0077888
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree33" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.666, 0.02, 15.083)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree33"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree33" groups=["village_canopies"]]
+position = Vector3(0, 2.4643, 0)
+texture = ExtResource("camphor")
+pixel_size = 0.0082419
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree34" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.704, 0.02, 18.174)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree34"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree34" groups=["village_canopies"]]
+position = Vector3(0, 2.2912, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0077407
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = false
+
+[node name="Tree35" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(26.632, 0.02, 20.553)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree35"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree35" groups=["village_canopies"]]
+position = Vector3(0, 2.2490, 0)
+texture = ExtResource("old_tree")
+pixel_size = 0.0075979
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="Tree36" type="StaticBody3D" parent="Forest/Trees"]
+position = Vector3(27.128, 0.02, 24.144)
+
+[node name="TrunkCollision" type="CollisionShape3D" parent="Forest/Trees/Tree36"]
+position = Vector3(0, 1.0, 0)
+shape = SubResource("trunk")
+
+[node name="Canopy" type="Sprite3D" parent="Forest/Trees/Tree36" groups=["village_canopies"]]
+position = Vector3(0, 2.3625, 0)
+texture = ExtResource("pine")
+pixel_size = 0.0079015
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 0
+no_depth_test = false
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones000" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.077, 0.2692, -10.776)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0021052
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds001" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.373, 0.4631, 3.073)
+texture = ExtResource("reeds")
+pixel_size = 0.0022525
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush002" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-9.994, 0.4789, 11.145)
+texture = ExtResource("bush")
+pixel_size = 0.0033744
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers003" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-9.517, 0.2811, 14.918)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0018830
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern004" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.695, 0.2751, -11.258)
+texture = ExtResource("fern")
+pixel_size = 0.0015678
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush005" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-27.004, 0.3023, 23.361)
+texture = ExtResource("bush")
+pixel_size = 0.0020619
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds006" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(6.028, 0.4000, 15.108)
+texture = ExtResource("reeds")
+pixel_size = 0.0019280
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds007" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.057, 0.4850, -9.168)
+texture = ExtResource("reeds")
+pixel_size = 0.0023651
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush008" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-22.285, 0.4206, 10.832)
+texture = ExtResource("bush")
+pixel_size = 0.0029410
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush009" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-26.516, 0.3191, 26.286)
+texture = ExtResource("bush")
+pixel_size = 0.0021868
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass010" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(15.002, 0.2300, -10.166)
+texture = ExtResource("grass")
+pixel_size = 0.0014961
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass011" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-8.299, 0.2255, 23.402)
+texture = ExtResource("grass")
+pixel_size = 0.0014636
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern012" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-27.795, 0.3603, 26.227)
+texture = ExtResource("fern")
+pixel_size = 0.0021019
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers013" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.028, 0.2373, -26.359)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0015607
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern014" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-22.548, 0.3444, 19.125)
+texture = ExtResource("fern")
+pixel_size = 0.0020025
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds015" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-15.922, 0.3310, 17.561)
+texture = ExtResource("reeds")
+pixel_size = 0.0015733
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds016" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-21.070, 0.3592, 18.968)
+texture = ExtResource("reeds")
+pixel_size = 0.0017184
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush017" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(6.893, 0.4380, 17.126)
+texture = ExtResource("bush")
+pixel_size = 0.0030708
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones018" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(15.003, 0.1964, -13.299)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0014778
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern019" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-15.495, 0.4049, 25.850)
+texture = ExtResource("fern")
+pixel_size = 0.0023821
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones020" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-12.750, 0.1651, 10.148)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012075
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers021" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-4.360, 0.2206, 10.558)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0014386
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass022" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(3.994, 0.2620, 3.678)
+texture = ExtResource("grass")
+pixel_size = 0.0017301
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern023" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.209, 0.4262, -15.583)
+texture = ExtResource("fern")
+pixel_size = 0.0025155
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds024" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.598, 0.2799, -18.340)
+texture = ExtResource("reeds")
+pixel_size = 0.0013106
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern025" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-9.761, 0.3060, 18.397)
+texture = ExtResource("fern")
+pixel_size = 0.0017618
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers026" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.375, 0.2700, -5.956)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0018012
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush027" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(7.170, 0.4570, -25.540)
+texture = ExtResource("bush")
+pixel_size = 0.0032117
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers028" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-4.904, 0.2631, 8.661)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0017505
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass029" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.989, 0.2195, -16.378)
+texture = ExtResource("grass")
+pixel_size = 0.0014201
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush030" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(5.809, 0.2892, 18.744)
+texture = ExtResource("bush")
+pixel_size = 0.0019645
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass031" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.669, 0.3280, -14.521)
+texture = ExtResource("grass")
+pixel_size = 0.0022113
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern032" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-10.321, 0.4792, 20.302)
+texture = ExtResource("fern")
+pixel_size = 0.0028480
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers033" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-9.870, 0.2865, 2.864)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0019228
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers034" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-10.599, 0.2283, 26.116)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0014947
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers035" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-25.547, 0.1684, 17.594)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0010544
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush036" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-4.555, 0.4151, 3.510)
+texture = ExtResource("bush")
+pixel_size = 0.0029004
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds037" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(5.911, 0.4018, -19.934)
+texture = ExtResource("reeds")
+pixel_size = 0.0019375
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones038" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.477, 0.2211, -25.251)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0016908
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones039" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.192, 0.2460, -25.038)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0019051
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush040" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-17.221, 0.2869, 12.270)
+texture = ExtResource("bush")
+pixel_size = 0.0019475
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass041" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-13.589, 0.3092, 15.997)
+texture = ExtResource("grass")
+pixel_size = 0.0020745
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern042" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-20.133, 0.2906, 9.994)
+texture = ExtResource("fern")
+pixel_size = 0.0016652
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones043" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-3.562, 0.2478, 25.052)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0019207
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers044" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-25.602, 0.2908, 7.950)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0019544
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers045" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-7.015, 0.2800, 13.068)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0018753
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones046" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.016, 0.2043, -18.637)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0015455
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones047" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-18.238, 0.2669, 15.353)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0020850
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush048" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.499, 0.4117, -3.674)
+texture = ExtResource("bush")
+pixel_size = 0.0028750
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds049" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-4.988, 0.3530, 26.553)
+texture = ExtResource("reeds")
+pixel_size = 0.0016866
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass050" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.550, 0.2202, -18.039)
+texture = ExtResource("grass")
+pixel_size = 0.0014245
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers051" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.330, 0.2913, -7.149)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0019579
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones052" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-26.821, 0.3123, 6.871)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0024770
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern053" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(5.108, 0.4466, -6.705)
+texture = ExtResource("fern")
+pixel_size = 0.0026432
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds054" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(7.273, 0.3322, -3.576)
+texture = ExtResource("reeds")
+pixel_size = 0.0015797
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds055" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(5.084, 0.2752, -8.920)
+texture = ExtResource("reeds")
+pixel_size = 0.0012864
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern056" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(23.725, 0.3204, -4.451)
+texture = ExtResource("fern")
+pixel_size = 0.0018522
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern057" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.392, 0.4417, -3.124)
+texture = ExtResource("fern")
+pixel_size = 0.0026126
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern058" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.969, 0.2832, 3.339)
+texture = ExtResource("fern")
+pixel_size = 0.0016186
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones059" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-6.137, 0.3453, 23.574)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0027609
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass060" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.516, 0.3221, -4.905)
+texture = ExtResource("grass")
+pixel_size = 0.0021688
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern061" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-16.039, 0.3488, 13.150)
+texture = ExtResource("fern")
+pixel_size = 0.0020300
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones062" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-20.294, 0.1717, 17.203)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012648
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers063" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(-3.130, 0.3279, 11.593)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0022271
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds064" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.451, 0.4012, -19.711)
+texture = ExtResource("reeds")
+pixel_size = 0.0019340
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush065" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.554, 0.3655, -9.761)
+texture = ExtResource("bush")
+pixel_size = 0.0025312
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass066" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.694, 0.1977, 12.159)
+texture = ExtResource("grass")
+pixel_size = 0.0012603
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers067" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.859, 0.1681, 17.865)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0010522
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern068" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.972, 0.3032, 27.744)
+texture = ExtResource("fern")
+pixel_size = 0.0017442
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass069" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.313, 0.3418, 10.955)
+texture = ExtResource("grass")
+pixel_size = 0.0023125
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds070" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.089, 0.2921, 13.042)
+texture = ExtResource("reeds")
+pixel_size = 0.0013730
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern071" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.744, 0.3118, 14.526)
+texture = ExtResource("fern")
+pixel_size = 0.0017982
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush072" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.477, 0.4446, 21.420)
+texture = ExtResource("bush")
+pixel_size = 0.0031198
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern073" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.510, 0.3088, 10.992)
+texture = ExtResource("fern")
+pixel_size = 0.0017794
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass074" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.734, 0.2965, 9.056)
+texture = ExtResource("grass")
+pixel_size = 0.0019818
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones075" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.853, 0.3228, 5.408)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0025676
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass076" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.628, 0.2359, 5.370)
+texture = ExtResource("grass")
+pixel_size = 0.0015398
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush077" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.978, 0.2786, 27.661)
+texture = ExtResource("bush")
+pixel_size = 0.0018857
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern078" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.735, 0.3262, 22.481)
+texture = ExtResource("fern")
+pixel_size = 0.0018886
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds079" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.859, 0.2803, 23.080)
+texture = ExtResource("reeds")
+pixel_size = 0.0013124
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush080" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.249, 0.3033, 26.083)
+texture = ExtResource("bush")
+pixel_size = 0.0020692
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush081" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.416, 0.3408, 20.009)
+texture = ExtResource("bush")
+pixel_size = 0.0023477
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern082" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.237, 0.3383, 21.022)
+texture = ExtResource("fern")
+pixel_size = 0.0019645
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones083" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.484, 0.1692, 15.823)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012429
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass084" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.795, 0.3335, 28.074)
+texture = ExtResource("grass")
+pixel_size = 0.0022515
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern085" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.227, 0.4368, 8.166)
+texture = ExtResource("fern")
+pixel_size = 0.0025815
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass086" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.633, 0.1792, 26.373)
+texture = ExtResource("grass")
+pixel_size = 0.0011257
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass087" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.374, 0.2371, 6.066)
+texture = ExtResource("grass")
+pixel_size = 0.0015479
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush088" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.193, 0.2815, 22.486)
+texture = ExtResource("bush")
+pixel_size = 0.0019071
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones089" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.040, 0.2097, 18.143)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0015924
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush090" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.271, 0.4851, 28.233)
+texture = ExtResource("bush")
+pixel_size = 0.0034206
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern091" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.491, 0.4794, 10.679)
+texture = ExtResource("fern")
+pixel_size = 0.0028490
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones092" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.249, 0.2479, 5.240)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0019216
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass093" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.178, 0.2478, 15.698)
+texture = ExtResource("grass")
+pixel_size = 0.0016261
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones094" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.624, 0.2751, 5.982)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0021558
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush095" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(24.840, 0.3482, 4.468)
+texture = ExtResource("bush")
+pixel_size = 0.0024032
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds096" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.363, 0.4652, 6.108)
+texture = ExtResource("reeds")
+pixel_size = 0.0022631
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass097" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.004, 0.2989, 25.107)
+texture = ExtResource("grass")
+pixel_size = 0.0019990
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern098" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(23.329, 0.3603, 8.946)
+texture = ExtResource("fern")
+pixel_size = 0.0021021
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass099" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.592, 0.1875, 19.696)
+texture = ExtResource("grass")
+pixel_size = 0.0011864
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass100" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.552, 0.2151, 4.402)
+texture = ExtResource("grass")
+pixel_size = 0.0013877
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass101" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.628, 0.3163, 20.463)
+texture = ExtResource("grass")
+pixel_size = 0.0021265
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush102" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(21.177, 0.3445, 22.318)
+texture = ExtResource("bush")
+pixel_size = 0.0023756
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones103" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.238, 0.1683, 20.599)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012351
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern104" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.942, 0.3566, 6.562)
+texture = ExtResource("fern")
+pixel_size = 0.0020791
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern105" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.372, 0.4584, 14.466)
+texture = ExtResource("fern")
+pixel_size = 0.0027172
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones106" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.585, 0.2142, 10.048)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0016314
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern107" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.890, 0.4439, 22.916)
+texture = ExtResource("fern")
+pixel_size = 0.0026262
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass108" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.921, 0.3205, 22.330)
+texture = ExtResource("grass")
+pixel_size = 0.0021569
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass109" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.536, 0.3104, 17.419)
+texture = ExtResource("grass")
+pixel_size = 0.0020835
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush110" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(22.758, 0.3883, 6.139)
+texture = ExtResource("bush")
+pixel_size = 0.0027013
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass111" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.794, 0.2758, 27.222)
+texture = ExtResource("grass")
+pixel_size = 0.0018307
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass112" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.218, 0.2951, 17.549)
+texture = ExtResource("grass")
+pixel_size = 0.0019717
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern113" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.481, 0.4720, 14.214)
+texture = ExtResource("fern")
+pixel_size = 0.0028022
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass114" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.202, 0.2515, 20.433)
+texture = ExtResource("grass")
+pixel_size = 0.0016531
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern115" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(21.211, 0.4428, 9.220)
+texture = ExtResource("fern")
+pixel_size = 0.0026197
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass116" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.680, 0.2140, 6.327)
+texture = ExtResource("grass")
+pixel_size = 0.0013793
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones117" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.121, 0.2089, 13.777)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0015855
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones118" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.405, 0.3212, 28.142)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0025538
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern119" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.359, 0.4800, 16.630)
+texture = ExtResource("fern")
+pixel_size = 0.0028527
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones120" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.835, 0.3377, 17.789)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0026957
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern121" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.192, 0.2918, 19.031)
+texture = ExtResource("fern")
+pixel_size = 0.0016727
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones122" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.470, 0.3408, 5.376)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0027225
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass123" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.175, 0.2593, 21.169)
+texture = ExtResource("grass")
+pixel_size = 0.0017106
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones124" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.289, 0.3408, 8.931)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0027228
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones125" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.389, 0.1694, 16.450)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012450
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush126" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.892, 0.3255, 14.621)
+texture = ExtResource("bush")
+pixel_size = 0.0022343
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones127" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(21.501, 0.2322, 10.108)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0017864
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern128" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.460, 0.4122, 28.246)
+texture = ExtResource("fern")
+pixel_size = 0.0024278
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass129" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.338, 0.2805, 14.313)
+texture = ExtResource("grass")
+pixel_size = 0.0018650
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern130" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.703, 0.3122, 12.848)
+texture = ExtResource("fern")
+pixel_size = 0.0018009
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass131" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.903, 0.2059, 27.072)
+texture = ExtResource("grass")
+pixel_size = 0.0013208
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern132" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.337, 0.4946, 26.507)
+texture = ExtResource("fern")
+pixel_size = 0.0029443
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass133" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(15.054, 0.1759, 25.038)
+texture = ExtResource("grass")
+pixel_size = 0.0011015
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass134" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.846, 0.2707, 24.740)
+texture = ExtResource("grass")
+pixel_size = 0.0017937
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones135" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.149, 0.2490, 15.248)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0019306
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones136" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.461, 0.1845, 26.591)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0013747
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass137" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(23.268, 0.3151, 5.725)
+texture = ExtResource("grass")
+pixel_size = 0.0021174
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones138" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.430, 0.2077, 24.217)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0015753
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern139" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.015, 0.4210, 20.913)
+texture = ExtResource("fern")
+pixel_size = 0.0024827
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers140" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.483, 0.2878, 9.846)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0019324
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern141" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.769, 0.2873, 15.319)
+texture = ExtResource("fern")
+pixel_size = 0.0016447
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush142" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(24.358, 0.4938, 10.018)
+texture = ExtResource("bush")
+pixel_size = 0.0034853
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass143" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.241, 0.1722, 18.774)
+texture = ExtResource("grass")
+pixel_size = 0.0010741
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush144" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.550, 0.4865, 23.684)
+texture = ExtResource("bush")
+pixel_size = 0.0034312
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern145" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.366, 0.3625, 11.813)
+texture = ExtResource("fern")
+pixel_size = 0.0021160
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass146" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(21.160, 0.3059, 24.752)
+texture = ExtResource("grass")
+pixel_size = 0.0020502
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass147" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.488, 0.2016, 22.440)
+texture = ExtResource("grass")
+pixel_size = 0.0012889
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds148" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.262, 0.4008, 13.729)
+texture = ExtResource("reeds")
+pixel_size = 0.0019321
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass149" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.812, 0.1873, 19.672)
+texture = ExtResource("grass")
+pixel_size = 0.0011844
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern150" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.850, 0.4846, 23.172)
+texture = ExtResource("fern")
+pixel_size = 0.0028814
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern151" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.529, 0.4007, 8.563)
+texture = ExtResource("fern")
+pixel_size = 0.0023555
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass152" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.833, 0.1961, 15.553)
+texture = ExtResource("grass")
+pixel_size = 0.0012491
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass153" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.098, 0.2112, 15.933)
+texture = ExtResource("grass")
+pixel_size = 0.0013594
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones154" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.333, 0.2461, 21.209)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0019060
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones155" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.412, 0.3310, 21.753)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0026381
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern156" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.900, 0.3011, 6.394)
+texture = ExtResource("fern")
+pixel_size = 0.0017310
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones157" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.720, 0.1965, 28.357)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0014785
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern158" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.626, 0.3736, 23.132)
+texture = ExtResource("fern")
+pixel_size = 0.0021854
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Reeds159" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.380, 0.3165, 21.770)
+texture = ExtResource("reeds")
+pixel_size = 0.0014989
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass160" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.930, 0.2166, 23.074)
+texture = ExtResource("grass")
+pixel_size = 0.0013983
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass161" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.182, 0.1800, 25.338)
+texture = ExtResource("grass")
+pixel_size = 0.0011314
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern162" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.669, 0.3862, 8.438)
+texture = ExtResource("fern")
+pixel_size = 0.0022643
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass163" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(22.686, 0.2858, 10.716)
+texture = ExtResource("grass")
+pixel_size = 0.0019035
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers164" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(15.955, 0.2849, 25.674)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0019108
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern165" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.017, 0.4923, 9.230)
+texture = ExtResource("fern")
+pixel_size = 0.0029299
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass166" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.372, 0.3357, 6.341)
+texture = ExtResource("grass")
+pixel_size = 0.0022682
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush167" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.446, 0.4064, 5.337)
+texture = ExtResource("bush")
+pixel_size = 0.0028360
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones168" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.305, 0.3007, 26.943)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0023768
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass169" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(17.867, 0.2466, 7.316)
+texture = ExtResource("grass")
+pixel_size = 0.0016174
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass170" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.788, 0.3050, 18.387)
+texture = ExtResource("grass")
+pixel_size = 0.0020436
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush171" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.135, 0.3617, 6.041)
+texture = ExtResource("bush")
+pixel_size = 0.0025033
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones172" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(15.588, 0.3408, 26.877)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0027226
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones173" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.577, 0.1654, 15.610)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0012104
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones174" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(28.610, 0.3050, 26.963)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0024136
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones175" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(23.094, 0.2986, 5.310)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0023589
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern176" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.896, 0.4523, 18.537)
+texture = ExtResource("fern")
+pixel_size = 0.0026792
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers177" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.575, 0.2499, 27.302)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0016537
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern178" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.365, 0.3587, 19.039)
+texture = ExtResource("fern")
+pixel_size = 0.0020925
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern179" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.712, 0.4774, 15.842)
+texture = ExtResource("fern")
+pixel_size = 0.0028364
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass180" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(20.343, 0.2103, 6.079)
+texture = ExtResource("grass")
+pixel_size = 0.0013528
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds181" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.869, 0.2931, 10.704)
+texture = ExtResource("reeds")
+pixel_size = 0.0013782
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers182" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(22.317, 0.2715, 8.318)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0018125
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass183" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.459, 0.2493, 27.627)
+texture = ExtResource("grass")
+pixel_size = 0.0016370
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass184" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(24.703, 0.3429, 8.066)
+texture = ExtResource("grass")
+pixel_size = 0.0023204
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern185" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.125, 0.4091, 16.188)
+texture = ExtResource("fern")
+pixel_size = 0.0024081
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass186" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.559, 0.2442, 22.154)
+texture = ExtResource("grass")
+pixel_size = 0.0016003
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass187" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(14.649, 0.3409, 11.541)
+texture = ExtResource("grass")
+pixel_size = 0.0023061
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass188" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.432, 0.2769, 9.686)
+texture = ExtResource("grass")
+pixel_size = 0.0018383
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Reeds189" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.618, 0.4503, 7.837)
+texture = ExtResource("reeds")
+pixel_size = 0.0021865
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones190" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.253, 0.2887, 21.016)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0022736
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass191" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.213, 0.2177, 12.349)
+texture = ExtResource("grass")
+pixel_size = 0.0014064
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones192" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.905, 0.3356, 24.660)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0026779
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush193" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.340, 0.3728, 9.415)
+texture = ExtResource("bush")
+pixel_size = 0.0025860
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern194" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.792, 0.4529, 18.345)
+texture = ExtResource("fern")
+pixel_size = 0.0026830
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern195" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.293, 0.3290, 22.370)
+texture = ExtResource("fern")
+pixel_size = 0.0019062
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass196" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.835, 0.2054, 6.677)
+texture = ExtResource("grass")
+pixel_size = 0.0013167
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass197" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(23.704, 0.2317, 14.633)
+texture = ExtResource("grass")
+pixel_size = 0.0015090
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass198" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(26.712, 0.1827, 16.198)
+texture = ExtResource("grass")
+pixel_size = 0.0011514
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern199" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(16.051, 0.4872, 26.052)
+texture = ExtResource("fern")
+pixel_size = 0.0028978
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Wildflowers200" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.749, 0.2788, 21.191)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0018662
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern201" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.484, 0.3493, 14.670)
+texture = ExtResource("fern")
+pixel_size = 0.0020335
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush202" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(18.768, 0.3588, 5.584)
+texture = ExtResource("bush")
+pixel_size = 0.0024817
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush203" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(19.692, 0.3733, 24.533)
+texture = ExtResource("bush")
+pixel_size = 0.0025899
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Grass204" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(12.935, 0.2313, 28.719)
+texture = ExtResource("grass")
+pixel_size = 0.0015059
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Fern205" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(25.583, 0.4089, 10.217)
+texture = ExtResource("fern")
+pixel_size = 0.0024066
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="MossStones206" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.797, 0.3090, 15.894)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0024487
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Grass207" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(27.789, 0.2902, 20.398)
+texture = ExtResource("grass")
+pixel_size = 0.0019358
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Bush208" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(11.330, 0.4650, 18.572)
+texture = ExtResource("bush")
+pixel_size = 0.0032714
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Bush209" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(13.516, 0.4443, 10.662)
+texture = ExtResource("bush")
+pixel_size = 0.0031177
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="MossStones210" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(9.683, 0.3367, 9.438)
+texture = ExtResource("moss_stones")
+pixel_size = 0.0026871
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = false
+
+[node name="Wildflowers211" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(10.273, 0.2462, 16.411)
+texture = ExtResource("wildflowers")
+pixel_size = 0.0016267
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="Fern212" type="Sprite3D" parent="GroundPlants"]
+position = Vector3(8.453, 0.3195, 19.630)
+texture = ExtResource("fern")
+pixel_size = 0.0018462
+billboard = 2
+shaded = true
+texture_filter = 0
+alpha_cut = 1
+alpha_scissor_threshold = 0.35
+cast_shadow = 0
+flip_h = true
+
+[node name="ForestSign" type="Label3D" parent="Forest"]
+position = Vector3(10.5, 1.7, 4)
+text = "林间小路 · 十里坡"
+font = ExtResource("font")
+font_size = 28
+pixel_size = 0.012
+billboard = 1
+outline_size = 6

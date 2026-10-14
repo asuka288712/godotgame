@@ -2,6 +2,9 @@
 extends Control
 
 const PORTRAITS: Dictionary = {
+	"洪大夫": preload("res://assets/sprite/npc/dys.png"),
+	"药贩": preload("res://assets/sprite/npc/dys.png"),
+	"张四": preload("res://assets/sprite/npc/zsg.png"),
 	"香兰": preload("res://assets/sprite/npc/Xl.png"),
 	"赵灵儿": preload("res://assets/sprite/poratait/Linger_b.png"),
 	"李大娘": preload("res://assets/sprite/npc/ldn.png"),
@@ -32,6 +35,9 @@ var _char_index: int = 0
 var _typing: bool = false
 var _type_speed: float = 0.04
 var _type_timer: float = 0.0
+var _line_finish_notified := false
+var _fade: Tween
+var _hint_tween: Tween
 var _font: Font
 
 func _ready() -> void:
@@ -57,6 +63,9 @@ func _setup_font() -> void:
 	_portrait_name.add_theme_color_override("font_color", Color(1.0, 0.95, 0.82))
 
 func _on_dialogue_line(speaker: String, text: String) -> void:
+	if _fade: _fade.kill()
+	if not visible or modulate.a < 1.0:
+		preload("res://scripts/ui/ui_motion.gd").reveal(self, 0.22)
 	visible = true
 	_name_label.text = speaker
 	_update_portrait(speaker)
@@ -66,6 +75,7 @@ func _on_dialogue_line(speaker: String, text: String) -> void:
 	_text_label.text = ""
 	_continue_hint.visible = false
 	_type_timer = 0.0
+	_line_finish_notified = false
 
 func _update_portrait(speaker: String) -> void:
 	var portrait: Texture2D = PORTRAITS.get(speaker)
@@ -75,8 +85,10 @@ func _update_portrait(speaker: String) -> void:
 	_portrait_name.add_theme_color_override("font_color", PORTRAIT_COLORS.get(speaker, Color(1.0, 0.95, 0.82)))
 
 func _on_dialogue_finished() -> void:
-	visible = false
 	_typing = false
+	_fade = create_tween()
+	_fade.tween_property(self, "modulate:a", 0.0, 0.15)
+	_fade.tween_callback(hide)
 
 func _process(delta: float) -> void:
 	if not visible: return
@@ -89,6 +101,7 @@ func _process(delta: float) -> void:
 		if _char_index >= _full_text.length():
 			_typing = false
 			_continue_hint.visible = true
+			_notify_line_finished()
 
 func _input(event: InputEvent) -> void:
 	if not visible: return
@@ -110,5 +123,16 @@ func _advance_or_finish_typing() -> void:
 		_text_label.text = "[color=#FFFFFF]" + _full_text + "[/color]"
 		_typing = false
 		_continue_hint.visible = true
+		_notify_line_finished()
 	else:
 		DialogueSystem.advance()
+
+func _notify_line_finished() -> void:
+	if _hint_tween: _hint_tween.kill()
+	_hint_tween = create_tween().set_loops()
+	_hint_tween.tween_property(_continue_hint, "modulate:a", 0.4, 0.7).set_trans(Tween.TRANS_SINE)
+	_hint_tween.tween_property(_continue_hint, "modulate:a", 1.0, 0.7).set_trans(Tween.TRANS_SINE)
+	if _line_finish_notified:
+		return
+	_line_finish_notified = true
+	DialogueSystem.notify_line_finished()

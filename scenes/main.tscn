@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6ygp83rc5x1w" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://ckrcvrvce57mv" path="res://scenes/npc.tscn" id="2_npc"]
 [ext_resource type="PackedScene" uid="uid://cwt300yk6i4l6" path="res://assets/sprite/bd/building.glb" id="3_85g3d"]
-[ext_resource type="PackedScene" path="res://scenes/encounter_zone.tscn" id="3_ezone"]
+[ext_resource type="Texture2D" uid="uid://d24lu3hhkdrlx" path="res://assets/generated/terrain/village_grass_tile.png" id="3_yc10j"]
 [ext_resource type="PackedScene" uid="uid://cle504v2gygly" path="res://scenes/dialogue_ui.tscn" id="4_dlgui"]
 [ext_resource type="PackedScene" uid="uid://cjigtxx6jb7jx" path="res://scenes/battle_ui.tscn" id="5_btlui"]
 [ext_resource type="PackedScene" uid="uid://73xlx7t4t1xw" path="res://scenes/hud.tscn" id="6_hud"]
@@ -13,19 +13,39 @@
 [ext_resource type="Texture2D" uid="uid://ox6fakkwmrpl" path="res://assets/sucai/Trees/Green-Tree.png" id="10_dp3eg"]
 [ext_resource type="Material" uid="uid://cltwkwqi04wj0" path="res://assets/sprite/filter/mat_filter_retro.tres" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://f0c8oxq5ot37" path="res://scripts/screen_filter.gd" id="12_filter_script"]
+[ext_resource type="PackedScene" uid="uid://pchc5y0rs8co" path="res://assets/sprite/item/tree.tscn" id="12_yc10j"]
 [ext_resource type="PackedScene" uid="uid://btuqvrlua5my2" path="res://scenes/zhao_linger.tscn" id="16_zhao_linger"]
 [ext_resource type="Script" uid="uid://cf01l2pqkor5m" path="res://scripts/scene_portal.gd" id="17_portal_script"]
 [ext_resource type="PackedScene" uid="uid://bqrxp2801f24b" path="res://scenes/inventory_ui.tscn" id="18_inventory_ui"]
 [ext_resource type="PackedScene" uid="uid://dra2nw7y16vpd" path="res://scenes/battle_arena.tscn" id="19_arena"]
 [ext_resource type="PackedScene" path="res://scenes/world_map.tscn" id="20_world_map"]
 [ext_resource type="AudioStream" uid="uid://dqagdlrdvuedu" path="res://assets/music/林坤信 - 馀杭春日.mp3" id="21_village_music"]
+[ext_resource type="PackedScene" uid="uid://bun0ueh2rxcuh" path="res://scenes/ground_item.tscn" id="22_ground_item"]
+[ext_resource type="PackedScene" path="res://scenes/village_vegetation.tscn" id="23_vegetation"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_sp5wv"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 21.0
+dof_blur_far_transition = 4.0
 
 [sub_resource type="StandardMaterial3D" id="mat_ground"]
 albedo_color = Color(0.55, 0.48, 0.35, 1)
+albedo_texture = ExtResource("3_yc10j")
 roughness = 0.9
+uv1_scale = Vector3(30, 30, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jscy8"]
+albedo_texture = ExtResource("3_yc10j")
+roughness = 0.63
+uv1_scale = Vector3(5.1, 5.1, 5.1)
+
+[sub_resource type="BoxMesh" id="mesh_far_fill"]
+material = SubResource("StandardMaterial3D_jscy8")
+size = Vector3(1000, 0.1, 1000)
 
 [sub_resource type="BoxMesh" id="mesh_0"]
-size = Vector3(60, 0.1, 60)
+material = SubResource("StandardMaterial3D_jscy8")
+size = Vector3(360, 0.1, 360)
 
 [sub_resource type="StandardMaterial3D" id="mat_road"]
 albedo_color = Color(0.62, 0.55, 0.42, 1)
@@ -38,7 +58,7 @@ size = Vector3(3, 0.05, 40)
 size = Vector3(40, 0.05, 3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
-size = Vector3(60, 0.2, 60)
+size = Vector3(360, 0.2, 360)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ld40"]
 shading_mode = 0
@@ -64,8 +84,12 @@ script = ExtResource("0_script")
 
 [node name="World" type="Node3D" parent="." unique_id=553583662]
 
+[node name="VillageVegetation" parent="World" unique_id=1466961423 instance=ExtResource("23_vegetation")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017852783, -0.036571503, 0.013435364)
+
 [node name="Environment" type="WorldEnvironment" parent="World" unique_id=764005308]
 environment = ExtResource("7_env")
+camera_attributes = SubResource("CameraAttributesPractical_sp5wv")
 
 [node name="SunLight" type="DirectionalLight3D" parent="World" unique_id=668374563]
 transform = Transform3D(0.995658, 0.06582272, -0.06582272, 0, 0.7071068, 0.7071068, 0.09308738, -0.70403653, 0.70403653, 443.6848, 5.097104, 3.9864025)
@@ -78,10 +102,16 @@ shadow_bias = 0.03
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08609009, -0.049998093, 0.05441284)
 material_override = SubResource("mat_ground")
 cast_shadow = 0
+mesh = SubResource("mesh_far_fill")
+
+[node name="GroundFarFill" type="MeshInstance3D" parent="World" unique_id=957835131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
+material_override = SubResource("mat_ground")
+cast_shadow = 0
 mesh = SubResource("mesh_0")
 
 [node name="RoadNS" type="MeshInstance3D" parent="World" unique_id=801993607]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.036551815, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.021506887, 0)
 material_override = SubResource("mat_road")
 cast_shadow = 0
 mesh = SubResource("mesh_2")
@@ -107,6 +137,9 @@ transform = Transform3D(-5.6387695e-08, 0, -1.2900001, 0, 1.2900001, 0, 1.290000
 [node name="building2" parent="World/building" unique_id=1957200058 instance=ExtResource("3_85g3d")]
 transform = Transform3D(-0.12463274, 0, 1.4245584, 0, 1.43, 0, -1.4245584, 0, -0.12463274, -0.94328517, 0.1471042, 1.1460292)
 
+[node name="building3" parent="World/building" unique_id=86806509 instance=ExtResource("3_85g3d")]
+transform = Transform3D(-0.12463274, 0, 1.4245584, 0, 1.43, 0, -1.4245584, 0, -0.12463274, -2.3132632, 0.1471042, -0.6488717)
+
 [node name="LiJiaKeZhanEntrance" type="Area3D" parent="World" unique_id=1727631105]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.1, -3.5)
 script = ExtResource("17_portal_script")
@@ -123,34 +156,36 @@ billboard = 1
 font_size = 24
 
 [node name="Player" parent="World" unique_id=690091000 instance=ExtResource("1_player")]
-transform = Transform3D(0.54279083, 0, 0, 0, 0.54279083, 0, 0, 0, 1, 0, 0.05185008, 0)
+transform = Transform3D(0.54279083, 0, 0, 0, 0.54279083, 0, 0, 0, 0.54279083, 0, 0.05185008, 0)
 
 [node name="NPCs" type="Node3D" parent="World" unique_id=683725196]
 
 [node name="Xianglan" parent="World/NPCs" unique_id=1908544673 instance=ExtResource("2_npc")]
-transform = Transform3D(0.1842572, 0, 0, 0, 0.18621673, 0, 0, 0, 0.39707634, -3.4733887, 0.93089914, 0.008770943)
+transform = Transform3D(0.184, 0, 0, 0, 0.18, 0, 0, 0, 0.18, -3.4733887, 0.93089914, 0.008770943)
 npc_name = "香兰"
 dialogue_texts = PackedStringArray("香兰|李家哥哥．．早安～我．．我想．．", "李逍遥|哦？什么事．．说啊！", "香兰|没．．没什么．．", "香兰|李家哥哥，我．．我在家里熬了一锅腊八粥，你和李大娘要是有空，晚饭后就过来一趟吧，尝尝我的手艺。", "李逍遥|好呀．．当然．．香兰姐煮的点心是出了名的，我婶婶说啊．．上回吃了你请的红豆汤，嘴巴直甜到现在呢。", "香兰|嘻．．一定要来喔！")
 
 [node name="ZhaoLinger" parent="World/NPCs" unique_id=365741850 instance=ExtResource("16_zhao_linger")]
-transform = Transform3D(0.18633348, 0, 0, 0, 0.18633348, 0, 0, 0, 1, 3.5, 0.90337193, 0.17144346)
+transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 3.56, 0.863, 0.171)
 
-[node name="EncounterZones" type="Node3D" parent="World" unique_id=392445123]
+[node name="GroundItems" type="Node3D" parent="World" unique_id=1130002365]
 
-[node name="Zone1" parent="World/EncounterZones" unique_id=771181981 instance=ExtResource("3_ezone")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -25)
-encounter_chance = 0.12
+[node name="MouseFruit_01" parent="World/GroundItems" unique_id=878692311 instance=ExtResource("22_ground_item")]
+transform = Transform3D(2.3711963, 0, 0, 0, 2.3711963, 0, 0, 0, 1, 2.4, -2.8000205, 4.2)
 
-[node name="Zone2" parent="World/EncounterZones" unique_id=1303799928 instance=ExtResource("3_ezone")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 25)
-enemy_pool = PackedStringArray("蜜蜂精", "蛇妖")
-encounter_chance = 0.1
+[node name="MouseFruit_02" parent="World/GroundItems" unique_id=235545807 instance=ExtResource("22_ground_item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 0.1, -3.1)
+
+[node name="MouseFruit_03" parent="World/GroundItems" unique_id=946266368 instance=ExtResource("22_ground_item")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 0.1, 8.6)
+amount = 2
 
 [node name="BattleWorld" type="Node3D" parent="World" unique_id=1857646852]
 visible = false
 
 [node name="DaytimeBackdrop" type="MeshInstance3D" parent="World" unique_id=1232501026]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 39, -80)
+visible = false
 cast_shadow = 0
 mesh = SubResource("QuadMesh_gqmmt")
 
@@ -196,6 +231,23 @@ texture = ExtResource("10_dp3eg")
 region_enabled = true
 region_rect = Rect2(0, 0, 121.26355, 378.0707)
 
+[node name="Tree" parent="World" unique_id=1126694146 instance=ExtResource("12_yc10j")]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, -4.9893265, 2.3339863, -13.846835)
+
+[node name="Tree2" parent="World" unique_id=590647910 instance=ExtResource("12_yc10j")]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, 15.68432, 2.3339863, -13.846835)
+
+[node name="Tree3" parent="World" unique_id=136552951 instance=ExtResource("12_yc10j")]
+transform = Transform3D(0.92, 0, 0, 0, 0.92, 0, 0, 0, 0.92, -20.854813, 2.530199, -3.5415735)
+
+[node name="Spawns" type="Node3D" parent="." unique_id=267664043]
+
+[node name="inn_return" type="Marker3D" parent="Spawns" unique_id=1985381344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 11)
+
+[node name="forest_return" type="Marker3D" parent="Spawns" unique_id=737741802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.1, 23)
+
 [node name="BattleArena" parent="." unique_id=639270308 instance=ExtResource("19_arena")]
 visible = false
 
@@ -208,9 +260,10 @@ mesh = SubResource("QuadMesh_dp3eg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
 fov = 55.0
 
-[node name="VillageMusic" type="AudioStreamPlayer" parent="."]
+[node name="VillageMusic" type="AudioStreamPlayer" parent="." unique_id=443621136]
 stream = ExtResource("21_village_music")
 volume_db = -8.0
+bus = &"Music"
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1307766734]
 
@@ -225,6 +278,7 @@ volume_db = -8.0
 [node name="WorldMap" parent="UILayer" unique_id=1657611742 instance=ExtResource("20_world_map")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=221362431]
+layer = -1
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1978828664]
 material = ExtResource("11_ya4ey")
@@ -237,7 +291,7 @@ mouse_filter = 2
 script = ExtResource("12_filter_script")
 
 [node name="tree" type="StaticBody3D" parent="." unique_id=768910542]
-transform = Transform3D(2.8616917, 0, 0, 0, 2.8616917, 0, 0, 0, 1, 0, 0.10512066, -3.628001)
+transform = Transform3D(2.862, 0, 0, 0, 2.862, 0, 0, 0, 2.86, 0, 0.10512066, -3.628001)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="tree" unique_id=1182004150]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10097933, 1.4190065, -0.018474817)

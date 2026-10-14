@@ -27,6 +27,12 @@ signal request_player_action
 
 enum BState{STARTING,WAITING,SELECT_COMMAND,SELECT_SKILL,SELECT_ITEM,SELECT_TARGET,EXECUTING,ENEMY_TURN,VICTORY,DEFEAT}
 
+var _session_epoch := 0
+var victory_rewards: Array = []
+var _reward_total := 0
+var _rewards_granted := false
+const ENEMY_EXPERIENCE := {"蘑菇怪": 80, "死士": 140, "蛇妖": 110, "蛤蟆怪": 150, "蜜蜂精": 70}
+
 var state:BState=BState.STARTING
 var turn_order:Array=[]
 var current_turn:int=0
@@ -37,7 +43,8 @@ var battle_enemies:Array=[]
 var combat_party: Array = []
 var _defending:Dictionary={}
 var _vulnerable: Dictionary = {}
-const ATB_FILL_RATE := 0.28
+var _sleeping: Dictionary = {}
+const ATB_FILL_RATE := 0.34
 # 行动点偏右：准备跑到 60，法术再从 60 读到 100 才会释放。
 const ACTION_POINT := 60.0
 var _action_gauges: Array[float] = []
@@ -59,12 +66,20 @@ var _enemy_db:Dictionary={
 }
 
 func start_battle(enemy_names:Array, party_override:Array=[])->void:
+	var session_epoch := _session_epoch
+	victory_rewards.clear()
+	_reward_total = 0
+	_rewards_granted = false
 	GameData.current_state=GameData.GameState.BATTLE
-	state=BState.STARTING;battle_enemies.clear();_defending.clear();_vulnerable.clear();did_escape=false
+	state=BState.STARTING;battle_enemies.clear();_defending.clear();_vulnerable.clear();_sleeping.clear();did_escape=false
 	# 复制列表而非角色数据：战斗伤血仍写回角色，但结束清理不会误删全局队伍。
 	combat_party = party_override.duplicate() if not party_override.is_empty() else GameData.party.duplicate()
 	var duplicate_counts: Dictionary = {}
 	for ename in enemy_names:
+		# 战斗场地只配置五个敌人出生点，超出的敌人不进入本场战斗。
+		if battle_enemies.size() >= 5:
+			break
+		_reward_total += int(ENEMY_EXPERIENCE.get(ename, 110))
 		var t:Dictionary=_enemy_db.get(ename,_enemy_db["蛇妖"])
 		duplicate_counts[ename] = int(duplicate_counts.get(ename, 0)) + 1
 		var display_name: String = ename if duplicate_counts[ename] == 1 else "%s#%d" % [ename, duplicate_counts[ename]]
@@ -75,7 +90,8 @@ func start_battle(enemy_names:Array, party_override:Array=[])->void:
 	_ready_party_queue.clear(); _active_menu_actor = -1; _attack_targets.clear()
 	_set_opening_gauge_order()
 	battle_started.emit(battle_enemies)
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(0.6, false).timeout
+	if session_epoch != _session_epoch: return
 	_begin_turn()
 
 func _build_turn_order()->void:
@@ -142,6 +158,7 @@ func _emit_action_gauges() -> void:
 	action_gauges_updated.emit(entries)
 
 func _begin_turn()->void:
+	if state in [BState.VICTORY, BState.DEFEAT]: return
 	state = BState.WAITING
 
 func _try_open_next_party_menu() -> void:
@@ -247,6 +264,7 @@ func _finish_cast(actor_index: int) -> void:
 	_execute_skill(actor_index, context.skill, int(context.target_idx), bool(context.is_enemy))
 
 func _run_normal_attack(actor_index: int, target_idx: int, target_is_enemy: bool) -> void:
+	var session_epoch := _session_epoch
 	if actor_index < 0 or actor_index >= turn_order.size(): return
 	var attacker = turn_order[actor_index].stats
 	var targets: Array = battle_enemies if target_is_enemy else combat_party
@@ -257,6 +275,7 @@ func _run_normal_attack(actor_index: int, target_idx: int, target_is_enemy: bool
 	_attack_targets[actor_index] = {"name": target.char_name, "actor": _find_actor_index(target), "normal": true}
 	attack_animation_requested.emit(attacker.char_name, target.char_name)
 	await _wait_for_attack_impact(attacker.char_name, target.char_name)
+	if session_epoch != _session_epoch: return
 	var arena := get_tree().get_first_node_in_group("battle_arena")
 	# 命中帧只检查目标是否仍守在自己的固定站位；已经冲出去攻击的人不会被打中。
 	var target_left_home: bool = false
@@ -273,7 +292,8 @@ func _run_normal_attack(actor_index: int, target_idx: int, target_is_enemy: bool
 			if attacker.char_name == "赵灵儿":
 				# 赵灵儿的普攻有两段：每段各自播放一次剑光、各结算半段攻击倍率。
 				_deal_damage(attacker, target, 0.5)
-				await get_tree().create_timer(0.40).timeout
+				await get_tree().create_timer(0.40, false).timeout
+				if session_epoch != _session_epoch: return
 				var still_at_home := not arena or not arena.has_method("is_battler_at_home") or bool(arena.is_battler_at_home(target.char_name))
 				if target.hp > 0 and still_at_home:
 					sword_slash_requested.emit(attacker.char_name, target.char_name)
@@ -285,6 +305,7 @@ func _run_normal_attack(actor_index: int, target_idx: int, target_is_enemy: bool
 		else:
 			_deal_damage(attacker, target, 1.0)
 	await _wait_for_attack_finish(attacker.char_name)
+	if session_epoch != _session_epoch: return
 	_attack_targets.erase(actor_index)
 	_reset_actor(actor_index)
 
@@ -303,6 +324,19 @@ func _deal_damage(attacker,target,mult:float)->void:
 	damage_dealt.emit(target.char_name,dmg,false)
 	action_executed.emit("%s 攻击 %s，造成 %d 伤害！"%[attacker.char_name,target.char_name,dmg])
 	_interrupt_cast(target)
+
+func _is_target_at_home(target) -> bool:
+	var arena := get_tree().get_first_node_in_group("battle_arena")
+	return not arena or not arena.has_method("is_battler_at_home") or bool(arena.is_battler_at_home(target.char_name))
+
+func _deal_skill_damage_if_target_at_home(attacker, target, skill) -> bool:
+	# 法术特效和伤害都落在固定站位点：目标在命中帧已经冲离站位时，法术同样落空。
+	if not _is_target_at_home(target):
+		attack_missed.emit(target.char_name)
+		action_executed.emit("%s 的 %s 落在了 %s 的原位置，攻击落空！" % [attacker.char_name, skill.skill_name, target.char_name])
+		return false
+	_deal_damage(attacker, target, skill.power)
+	return true
 
 func _interrupt_cast(target) -> void:
 	var target_index := _find_actor_index(target)
@@ -327,6 +361,7 @@ func _deal_fixed_heal(target, amount: int) -> void:
 	damage_dealt.emit(target.char_name, amount, true)
 
 func _execute_skill(actor_index: int, skill, target_idx:int,is_enemy:bool)->void:
+	var session_epoch := _session_epoch
 	if actor_index < 0 or actor_index >= turn_order.size(): return
 	if skill != null and skill.target_type in ["all_enemies", "all_allies"]:
 		_do_aoe_skill(actor_index, skill)
@@ -341,14 +376,18 @@ func _execute_skill(actor_index: int, skill, target_idx:int,is_enemy:bool)->void
 		if skill.skill_name == "气疗术" or skill.skill_name == "灵血咒":
 			if attacker.char_name == "李逍遥":
 				yujian_magic_cast_requested.emit()
-				await get_tree().create_timer(1.0).timeout
+				await get_tree().create_timer(1.0, false).timeout
+				if session_epoch != _session_epoch: return
 			else:
 				zhao_magic_cast_requested.emit(target.char_name)
-				await get_tree().create_timer(1.92).timeout
+				await get_tree().create_timer(1.92, false).timeout
+				if session_epoch != _session_epoch: return
 			healing_effect_requested.emit(target.char_name)
-			await get_tree().create_timer(0.38).timeout
+			await get_tree().create_timer(0.38, false).timeout
+			if session_epoch != _session_epoch: return
 			_deal_fixed_heal(target, int(skill.power))
-			await get_tree().create_timer(0.57).timeout
+			await get_tree().create_timer(0.57, false).timeout
+			if session_epoch != _session_epoch: return
 			if attacker.char_name == "李逍遥":
 				yujian_magic_cast_finished.emit()
 			else:
@@ -361,49 +400,78 @@ func _execute_skill(actor_index: int, skill, target_idx:int,is_enemy:bool)->void
 			if skill.skill_name == "御剑术":
 				yujian_magic_cast_requested.emit()
 				# 12 magic frames at 12 fps; the flying sword starts after the cast pose finishes.
-				await get_tree().create_timer(1.0).timeout
+				await get_tree().create_timer(1.0, false).timeout
+				if session_epoch != _session_epoch: return
 				yujian_sword_rain_requested.emit(target.char_name)
 				# Rising flight + turn downward in the air, then the falling-sword sequence.
-				await get_tree().create_timer(1.85).timeout
-				_deal_damage(attacker,target,skill.power)
-				await get_tree().create_timer(0.34).timeout
+				await get_tree().create_timer(1.85, false).timeout
+				if session_epoch != _session_epoch: return
+				_deal_skill_damage_if_target_at_home(attacker, target, skill)
+				await get_tree().create_timer(0.34, false).timeout
+				if session_epoch != _session_epoch: return
 				yujian_magic_cast_finished.emit()
 			elif skill.skill_name == "天师符法":
 				yujian_magic_cast_requested.emit()
 				# The spell begins only after Li Xiaoyao's complete magic animation.
-				await get_tree().create_timer(1.0).timeout
+				await get_tree().create_timer(1.0, false).timeout
+				if session_epoch != _session_epoch: return
 				tianshi_fufa_requested.emit(target.char_name)
 				# Sigil fade-in + six effect frames + flying sword impact.
-				await get_tree().create_timer(1.55).timeout
-				_vulnerable[target.char_name] = 2
+				await get_tree().create_timer(1.55, false).timeout
+				if session_epoch != _session_epoch: return
+				if _is_target_at_home(target):
+					_vulnerable[target.char_name] = 2
+				else:
+					attack_missed.emit(target.char_name)
+					action_executed.emit("%s 的 %s 落在了 %s 的原位置，攻击落空！" % [attacker.char_name, skill.skill_name, target.char_name])
 				yujian_magic_cast_finished.emit()
 			elif skill.skill_name == "雷咒":
 				zhao_magic_cast_requested.emit(target.char_name)
 				# 46 magic frames at 24 fps; its final frame stays on screen during impact.
-				await get_tree().create_timer(1.92).timeout
+				await get_tree().create_timer(1.92, false).timeout
+				if session_epoch != _session_epoch: return
 				lightning_strike_requested.emit(target.char_name)
-				_deal_damage(attacker,target,skill.power)
-				await get_tree().create_timer(0.60).timeout
+				_deal_skill_damage_if_target_at_home(attacker, target, skill)
+				await get_tree().create_timer(0.60, false).timeout
+				if session_epoch != _session_epoch: return
+				zhao_magic_cast_finished.emit()
+			elif skill.skill_name == "回梦":
+				zhao_magic_cast_requested.emit(target.char_name)
+				await get_tree().create_timer(1.92, false).timeout
+				if session_epoch != _session_epoch: return
+				if _is_target_at_home(target):
+					_sleeping[target.char_name] = 4
+					action_executed.emit("%s 陷入昏睡，接下来 4 次行动将无法行动！" % target.char_name)
+				else:
+					attack_missed.emit(target.char_name)
+					action_executed.emit("%s 的 %s 落在了 %s 的原位置，攻击落空！" % [attacker.char_name, skill.skill_name, target.char_name])
+				await get_tree().create_timer(0.45, false).timeout
+				if session_epoch != _session_epoch: return
 				zhao_magic_cast_finished.emit()
 			elif skill.skill_name == "炎咒" or skill.skill_name == "土咒" or skill.skill_name == "流星火雨":
 				zhao_magic_cast_requested.emit(target.char_name)
 				# Wait for Zhao Linger's complete non-looping magic animation first.
-				await get_tree().create_timer(1.92).timeout
+				await get_tree().create_timer(1.92, false).timeout
+				if session_epoch != _session_epoch: return
 				elemental_spell_requested.emit(skill.skill_name, target.char_name)
-				await get_tree().create_timer(1.35 if skill.skill_name == "流星火雨" else 0.42).timeout
-				_deal_damage(attacker, target, skill.power)
-				await get_tree().create_timer(0.60 if skill.skill_name == "流星火雨" else 0.45).timeout
+				await get_tree().create_timer(1.35 if skill.skill_name == "流星火雨" else 0.42, false).timeout
+				if session_epoch != _session_epoch: return
+				_deal_skill_damage_if_target_at_home(attacker, target, skill)
+				await get_tree().create_timer(0.60 if skill.skill_name == "流星火雨" else 0.45, false).timeout
+				if session_epoch != _session_epoch: return
 				zhao_magic_cast_finished.emit()
 			else:
 				# A skill is never silently shown as a normal attack. Skills without
 				# their own visual simply apply their result after a short cast beat.
-				await get_tree().create_timer(0.35).timeout
-			if skill.skill_name not in ["雷咒", "炎咒", "土咒", "流星火雨", "御剑术", "天师符法"]:
-				_deal_damage(attacker,target,skill.power)
+				await get_tree().create_timer(0.35, false).timeout
+				if session_epoch != _session_epoch: return
+			if skill.skill_name not in ["回梦", "雷咒", "炎咒", "土咒", "流星火雨", "御剑术", "天师符法"]:
+				_deal_skill_damage_if_target_at_home(attacker, target, skill)
 	action_executed.emit("%s 使用了 %s！"%[attacker.char_name,skill.skill_name])
 	_reset_actor(actor_index)
 
 func _do_aoe_skill(actor_index: int, skill)->void:
+	var session_epoch := _session_epoch
 	var attacker=turn_order[actor_index].stats
 	if skill==null:return
 	attacker.mp-=skill.mp_cost
@@ -413,16 +481,21 @@ func _do_aoe_skill(actor_index: int, skill)->void:
 	elif skill.skill_name == "风卷残云":
 		var target_name: String = battle_enemies[0].char_name if not battle_enemies.is_empty() else ""
 		zhao_magic_cast_requested.emit(target_name)
-		await get_tree().create_timer(1.92).timeout
+		await get_tree().create_timer(1.92, false).timeout
+		if session_epoch != _session_epoch: return
 		wind_skill_requested.emit(attacker.char_name, target_name)
-		await get_tree().create_timer(0.95).timeout # 0.65s travel + 0.3s on contact
+		await get_tree().create_timer(0.95, false).timeout # 0.65s travel + 0.3s on contact
+		if session_epoch != _session_epoch: return
 		for e in battle_enemies:
-			if e.hp>0:_deal_damage(attacker,e,skill.power)
-		await get_tree().create_timer(0.12).timeout
+			if e.hp > 0:
+				_deal_skill_damage_if_target_at_home(attacker, e, skill)
+		await get_tree().create_timer(0.12, false).timeout
+		if session_epoch != _session_epoch: return
 		zhao_magic_cast_finished.emit()
 	else:
 		for e in battle_enemies:
-			if e.hp>0:_deal_damage(attacker,e,skill.power)
+			if e.hp > 0:
+				_deal_skill_damage_if_target_at_home(attacker, e, skill)
 	action_executed.emit("%s 使用了 %s！"%[attacker.char_name,skill.skill_name])
 	_reset_actor(actor_index)
 
@@ -450,31 +523,47 @@ func _start_enemy_action(actor_index: int) -> void:
 	if actor_index < 0 or actor_index >= turn_order.size() or _actor_states[actor_index] != ActorState.READY:
 		return
 	var enemy=turn_order[actor_index].stats
+	if _sleeping.has(enemy.char_name):
+		var remaining_turns := int(_sleeping[enemy.char_name]) - 1
+		if remaining_turns > 0:
+			_sleeping[enemy.char_name] = remaining_turns
+			action_executed.emit("%s 正在昏睡，跳过本次行动（剩余 %d 回合）。" % [enemy.char_name, remaining_turns])
+		else:
+			_sleeping.erase(enemy.char_name)
+			action_executed.emit("%s 正在昏睡，跳过本次行动后醒来了。" % enemy.char_name)
+		_reset_actor(actor_index)
+		return
 	var alive:Array=combat_party.filter(func(p):return p.hp>0)
 	if alive.is_empty():_check_end();return
 	var target=alive[randi()%alive.size()]
 	_run_normal_attack(actor_index, combat_party.find(target), false)
 
 func _wait_for_attack_impact(attacker_name: String, target_name: String) -> void:
+	var session_epoch := _session_epoch
 	var arena := get_tree().get_first_node_in_group("battle_arena")
 	if arena and arena.has_signal("attack_impact_reached"):
 		while true:
 			var payload: Variant = await arena.attack_impact_reached
+			if session_epoch != _session_epoch: return
 			if payload is Array and payload.size() >= 2 and payload[0] == attacker_name and payload[1] == target_name:
 				return
 	else:
-		await get_tree().create_timer(1.15).timeout
+		await get_tree().create_timer(1.15, false).timeout
+		if session_epoch != _session_epoch: return
 
 func _wait_for_attack_finish(attacker_name: String) -> void:
+	var session_epoch := _session_epoch
 	var arena := get_tree().get_first_node_in_group("battle_arena")
 	if arena and arena.has_signal("attack_animation_finished"):
 		while true:
 			var payload: Variant = await arena.attack_animation_finished
+			if session_epoch != _session_epoch: return
 			var finished_name: String = str(payload[0]) if payload is Array else str(payload)
 			if finished_name == attacker_name:
 				return
 	else:
-		await get_tree().create_timer(0.40).timeout
+		await get_tree().create_timer(0.40, false).timeout
+		if session_epoch != _session_epoch: return
 
 func _reset_actor(actor_index: int)->void:
 	if _check_end():return
@@ -500,13 +589,28 @@ func _new_round()->void:
 func is_vulnerable(target_name: String) -> bool:
 	return _vulnerable.has(target_name)
 
+func is_sleeping(target_name: String) -> bool:
+	return _sleeping.has(target_name)
+
+func sleeping_turns_remaining(target_name: String) -> int:
+	return int(_sleeping.get(target_name, 0))
+
 func _check_end()->bool:
+	if state in [BState.VICTORY, BState.DEFEAT]: return true
 	if battle_enemies.all(func(e):return e.hp<=0):
-		state=BState.VICTORY;battle_ended.emit(true);return true
+		state = BState.VICTORY
+		if not _rewards_granted:
+			_rewards_granted = true
+			for member in combat_party:
+				if GameData.party.has(member):
+					victory_rewards.append(GameData.award_experience(member, _reward_total))
+		battle_ended.emit(true)
+		return true
 	if combat_party.all(func(p):return p.hp<=0):
 		state=BState.DEFEAT;battle_ended.emit(false);return true
 	return false
 
 func end_battle()->void:
+	_session_epoch += 1
 	GameData.current_state=GameData.GameState.EXPLORE
-	current_turn=0;turn_order.clear();battle_enemies.clear();combat_party.clear();_defending.clear();_vulnerable.clear();_action_gauges.clear();_actor_states.clear();_ready_party_queue.clear();_cast_speeds.clear();_cast_contexts.clear();_attack_targets.clear();_active_menu_actor=-1;did_escape=false
+	current_turn=0;turn_order.clear();battle_enemies.clear();combat_party.clear();_defending.clear();_vulnerable.clear();_sleeping.clear();_action_gauges.clear();_actor_states.clear();_ready_party_queue.clear();_cast_speeds.clear();_cast_contexts.clear();_attack_targets.clear();_active_menu_actor=-1;did_escape=false

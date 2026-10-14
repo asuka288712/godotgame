@@ -5,6 +5,7 @@ render_mode blend_mix, depth_prepass_alpha, cull_back, diffuse_burley, specular_
 uniform sampler2D albedo_texture : source_color, filter_linear_mipmap;
 uniform vec4 albedo_tint : source_color = vec4(1.0);
 uniform float effect_enabled : hint_range(0.0, 1.0) = 0.0;
+uniform float effect_strength : hint_range(0.0, 1.0) = 1.0;
 uniform vec2 subject_uv_0 = vec2(-2.0, -2.0);
 uniform vec2 subject_uv_1 = vec2(-2.0, -2.0);
 uniform float hole_radius : hint_range(0.01, 0.4) = 0.095;
@@ -25,7 +26,8 @@ void fragment() {
 			ellipse_distance(SCREEN_UV, subject_uv_0),
 			ellipse_distance(SCREEN_UV, subject_uv_1)
 		);
-		alpha *= smoothstep(hole_radius, hole_radius + feather_width, nearest_subject);
+		float hole_alpha = smoothstep(hole_radius, hole_radius + feather_width, nearest_subject);
+		alpha *= mix(1.0, hole_alpha, effect_strength);
 	}
 	ALBEDO = base.rgb;
 	ALPHA = alpha;

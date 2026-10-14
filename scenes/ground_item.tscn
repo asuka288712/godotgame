@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bun0ueh2rxcuh"]
+
+[ext_resource type="Script" uid="uid://b0lqrveskilom" path="res://scripts/ground_item.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cgckj6ow7ycf1" path="res://assets/sprite/items/鼠儿果.png" id="2_default_icon"]
+
+[node name="GroundItem" type="Node3D" unique_id=744874444]
+script = ExtResource("1_script")
+item_texture = ExtResource("2_default_icon")
+
+[node name="ItemSprite" type="Sprite3D" parent="." unique_id=1234911859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
+billboard = 1
+no_depth_test = true
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("2_default_icon")
+region_enabled = true
+region_rect = Rect2(0, 0, 42, 36)
+
+[node name="PromptLabel" type="Label3D" parent="." unique_id=1095481177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 0.91, 0.63, 1)
+font_size = 22
+outline_size = 6

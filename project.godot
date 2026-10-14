@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="仙剑奇侠传 - HD-2D重制版Demo"
-run/main_scene="res://scenes/xyr/lixiaoyao_room.tscn"
+run/main_scene="res://scenes/title_screen.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
@@ -23,7 +23,10 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 GameData="*res://scripts/game_data.gd"
 DialogueSystem="*res://scripts/dialogue_system.gd"
 BattleSystem="*res://scripts/battle_system.gd"
+SaveManager="*res://scripts/save_manager.gd"
+GlobalMenu="*res://scripts/ui/global_menu.gd"
 MCPRuntimeServer="*res://addons/godot_mcp_toolkit/runtime/mcp_runtime_server.gd"
+StoryManager="*res://scripts/story/story_manager.gd"
 
 [display]
 
@@ -45,5 +48,5 @@ status="No .mcp.json found — use Project > Tools > MCP Toolkit > Write .mcp.js
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 lights_and_shadows/hdr_2d=false

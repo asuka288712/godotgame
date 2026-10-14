@@ -2,6 +2,7 @@
 extends Area3D
 
 @export_file("*.tscn") var target_scene: String
+@export var target_spawn: String = "entry"
 @export var prompt_text: String = "[E] 进入"
 
 @onready var _prompt: Label3D = $PromptLabel
@@ -25,6 +26,7 @@ func _on_body_exited(body: Node3D) -> void:
 		_prompt.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
+	if GameData.current_state != GameData.GameState.EXPLORE: return
 	if not _player_nearby or not event.is_action_pressed("interact"):
 		return
 	if target_scene.is_empty():
@@ -33,5 +35,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 	# Scene changes keep autoload state. Explicitly restore exploration so a
 	# previously opened menu/dialogue cannot leave the new player frozen.
-	GameData.current_state = GameData.GameState.EXPLORE
-	get_tree().change_scene_to_file(target_scene)
+	if StoryManager.has_method("travel_path"):
+		StoryManager.travel_path(target_scene, target_spawn)
+	else:
+		GameData.current_state = GameData.GameState.EXPLORE
+		get_tree().change_scene_to_file(target_scene)

@@ -61,6 +61,7 @@
 [ext_resource type="Texture2D" uid="uid://caslahdn8yex7" path="res://assets/sprite/anime/attack/spritesheet_58.png" id="59_dygpo"]
 [ext_resource type="Texture2D" uid="uid://c0yrln2sdk34i" path="res://assets/sprite/anime/attack/spritesheet_59.png" id="60_vso6i"]
 [ext_resource type="Texture2D" uid="uid://bxpvctndureuw" path="res://assets/sprite/anime/attack/spritesheet_60.png" id="61_20122"]
+[ext_resource type="Texture2D" uid="uid://cnlwmasi4a76j" path="res://assets/sprite/animation/hit.png" id="62_fccsy"]
 [ext_resource type="Texture2D" uid="uid://cq7e5tt8vp1nx" path="res://assets/sprite/anime/attack/001.png" id="85_1lovq"]
 [ext_resource type="Texture2D" uid="uid://b4f3cgrp3i350" path="res://assets/sprite/anime/attack/002.png" id="86_0usgs"]
 [ext_resource type="Texture2D" uid="uid://dhegn2gf8q1o5" path="res://assets/sprite/anime/attack/003.png" id="87_c7iw1"]
@@ -73,6 +74,7 @@
 [ext_resource type="Texture2D" uid="uid://reym60ba237k" path="res://assets/sprite/anime/attack/010.png" id="94_5ej1x"]
 [ext_resource type="Texture2D" uid="uid://baa6btiowspbv" path="res://assets/sprite/anime/attack/011.png" id="95_tlfvf"]
 [ext_resource type="Texture2D" uid="uid://cedgns5k5n6nm" path="res://assets/sprite/anime/attack/012.png" id="96_i18u8"]
+[ext_resource type="Texture2D" uid="uid://f76t6mmoluc" path="res://assets/sprite/animation/wakeoup.png" id="97_c7iw1"]
 [ext_resource type="Texture2D" uid="uid://or3ekko4kb6e" path="res://assets/sprite/anime/walk/walkd/001.png" id="120_jopkk"]
 [ext_resource type="Texture2D" uid="uid://d3h4wgfmb8qn6" path="res://assets/sprite/anime/walk/walkd/002.png" id="121_5l1xu"]
 [ext_resource type="Texture2D" uid="uid://dqpb77wcnq4qy" path="res://assets/sprite/anime/walk/walkd/003.png" id="122_inwxp"]
@@ -140,6 +142,22 @@
 [ext_resource type="Texture2D" uid="uid://76l5o58phcea" path="res://assets/sprite/anime/walk/033.png" id="walk_033"]
 [ext_resource type="Texture2D" uid="uid://dwqhbkwgk360c" path="res://assets/sprite/anime/walk/034.png" id="walk_034"]
 [ext_resource type="Texture2D" uid="uid://bwmcgixaerkeh" path="res://assets/sprite/anime/walk/035.png" id="walk_035"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4c5e"]
+atlas = ExtResource("62_fccsy")
+region = Rect2(0, 0, 960, 1280)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72noi"]
+atlas = ExtResource("62_fccsy")
+region = Rect2(960, 0, 960, 1280)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j382"]
+atlas = ExtResource("62_fccsy")
+region = Rect2(1920, 0, 960, 1280)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3jfe"]
+atlas = ExtResource("62_fccsy")
+region = Rect2(2880, 0, 960, 1280)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_all"]
 animations = [{
@@ -330,6 +348,42 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_0j382")
+}],
+"loop": true,
+"name": &"danger",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4c5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72noi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j382")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3jfe")
+}],
+"loop": false,
+"name": &"die",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4c5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72noi")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("idle_001")
 }, {
 "duration": 1.0,
@@ -442,6 +496,14 @@ animations = [{
 "loop": 0,
 "name": &"magic",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("97_c7iw1")
+}],
+"loop": 1,
+"name": &"wakeup",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -604,7 +666,6 @@ height = 1.2
 radius = 2.2
 
 [node name="Player" type="CharacterBody3D" unique_id=431661018]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_script")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=802389830]
@@ -615,10 +676,10 @@ shaded = true
 alpha_cut = 1
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_all")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
-frame = 18
-frame_progress = 0.11874573
+frame = 0
+frame_progress = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=530479910]
 transform = Transform3D(2.75, 0, 0, 0, 2.75, 0, 0, 0, 2.75, 0.12, 1.57, 0)

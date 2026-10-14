@@ -1,0 +1,646 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/story/chapter_scene.gd" id="1"]
+
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2"]
+
+[ext_resource type="Script" path="res://scripts/story/story_interaction.gd" id="3"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/font.ttf" id="4"]
+
+[ext_resource type="Script" path="res://scripts/story/chapter_battle.gd" id="5"]
+
+[ext_resource type="Script" path="res://scripts/story/story_visual.gd" id="6"]
+
+[ext_resource type="Script" path="res://scripts/story/story_character.gd" id="character_linger"]
+
+[ext_resource type="PackedScene" path="res://scenes/zhao_linger.tscn" id="art_linger"]
+
+[sub_resource type="Environment" id="r1"]
+background_mode = 1
+background_color = Color(0.18, 0.28, 0.33, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.82, 0.87, 0.91, 1)
+ambient_light_energy = 0.75
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="r3"]
+albedo_color = Color(0.49, 0.56, 0.5, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r4"]
+size = Vector3(32, 0.6, 30)
+material = SubResource("r3")
+
+[sub_resource type="BoxShape3D" id="r5"]
+size = Vector3(32, 0.6, 30)
+
+[sub_resource type="StandardMaterial3D" id="r7"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r8"]
+size = Vector3(34, 2, 0.4)
+material = SubResource("r7")
+
+[sub_resource type="BoxShape3D" id="r9"]
+size = Vector3(34, 2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="r11"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r12"]
+size = Vector3(34, 2, 0.4)
+material = SubResource("r11")
+
+[sub_resource type="BoxShape3D" id="r13"]
+size = Vector3(34, 2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="r15"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r16"]
+size = Vector3(0.4, 2, 32)
+material = SubResource("r15")
+
+[sub_resource type="BoxShape3D" id="r17"]
+size = Vector3(0.4, 2, 32)
+
+[sub_resource type="StandardMaterial3D" id="r19"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r20"]
+size = Vector3(0.4, 2, 32)
+material = SubResource("r19")
+
+[sub_resource type="BoxShape3D" id="r21"]
+size = Vector3(0.4, 2, 32)
+
+[sub_resource type="StandardMaterial3D" id="r23"]
+albedo_color = Color(0.7, 0.72, 0.62, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r24"]
+size = Vector3(23, 0.07, 18)
+material = SubResource("r23")
+
+[sub_resource type="StandardMaterial3D" id="r26"]
+albedo_color = Color(0.56, 0.65, 0.62, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r27"]
+size = Vector3(24, 4, 0.45)
+material = SubResource("r26")
+
+[sub_resource type="BoxShape3D" id="r28"]
+size = Vector3(24, 4, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="r30"]
+albedo_color = Color(0.47, 0.61, 0.58, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r31"]
+size = Vector3(0.6, 4, 0.6)
+material = SubResource("r30")
+
+[sub_resource type="BoxShape3D" id="r32"]
+size = Vector3(0.6, 4, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="r34"]
+albedo_color = Color(0.47, 0.61, 0.58, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r35"]
+size = Vector3(0.6, 4, 0.6)
+material = SubResource("r34")
+
+[sub_resource type="BoxShape3D" id="r36"]
+size = Vector3(0.6, 4, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="r38"]
+albedo_color = Color(0.47, 0.61, 0.58, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r39"]
+size = Vector3(0.6, 4, 0.6)
+material = SubResource("r38")
+
+[sub_resource type="BoxShape3D" id="r40"]
+size = Vector3(0.6, 4, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="r42"]
+albedo_color = Color(0.47, 0.61, 0.58, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r43"]
+size = Vector3(0.6, 4, 0.6)
+material = SubResource("r42")
+
+[sub_resource type="BoxShape3D" id="r44"]
+size = Vector3(0.6, 4, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="r46"]
+albedo_color = Color(0.25, 0.39, 0.41, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r47"]
+size = Vector3(26, 0.45, 6)
+material = SubResource("r46")
+
+[sub_resource type="StandardMaterial3D" id="r49"]
+albedo_color = Color(0.56, 0.42, 0.35, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r50"]
+size = Vector3(4, 0.9, 3)
+material = SubResource("r49")
+
+[sub_resource type="BoxShape3D" id="r51"]
+size = Vector3(4, 0.9, 3)
+
+[sub_resource type="StandardMaterial3D" id="r53"]
+albedo_color = Color(0.55, 0.4, 0.26, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r54"]
+size = Vector3(3, 1.3, 2)
+material = SubResource("r53")
+
+[sub_resource type="BoxShape3D" id="r55"]
+size = Vector3(3, 1.3, 2)
+
+[sub_resource type="StandardMaterial3D" id="r57"]
+albedo_color = Color(0.35, 0.32, 0.26, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r58"]
+size = Vector3(0.45, 4.8, 0.45)
+material = SubResource("r57")
+
+[sub_resource type="StandardMaterial3D" id="r60"]
+albedo_color = Color(0.29, 0.22, 0.15, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r61"]
+size = Vector3(0.4, 2, 0.4)
+material = SubResource("r60")
+
+[sub_resource type="BoxShape3D" id="r62"]
+size = Vector3(0.4, 2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="r63"]
+albedo_color = Color(0.28, 0.44, 0.32, 1)
+roughness = 0.88
+
+[sub_resource type="SphereMesh" id="r64"]
+radius = 1.5
+height = 2.5
+material = SubResource("r63")
+
+[sub_resource type="StandardMaterial3D" id="r67"]
+albedo_color = Color(0.29, 0.22, 0.15, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r68"]
+size = Vector3(0.4, 2, 0.4)
+material = SubResource("r67")
+
+[sub_resource type="BoxShape3D" id="r69"]
+size = Vector3(0.4, 2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="r70"]
+albedo_color = Color(0.28, 0.44, 0.32, 1)
+roughness = 0.88
+
+[sub_resource type="SphereMesh" id="r71"]
+radius = 1.5
+height = 2.5
+material = SubResource("r70")
+
+[sub_resource type="StandardMaterial3D" id="r74"]
+albedo_color = Color(0.29, 0.22, 0.15, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="r75"]
+size = Vector3(0.4, 2, 0.4)
+material = SubResource("r74")
+
+[sub_resource type="BoxShape3D" id="r76"]
+size = Vector3(0.4, 2, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="r77"]
+albedo_color = Color(0.28, 0.44, 0.32, 1)
+roughness = 0.88
+
+[sub_resource type="SphereMesh" id="r78"]
+radius = 1.5
+height = 2.5
+material = SubResource("r77")
+
+[sub_resource type="StandardMaterial3D" id="r80"]
+albedo_color = Color(0.44, 0.5, 0.57, 1)
+roughness = 0.88
+
+[sub_resource type="CapsuleMesh" id="r81"]
+radius = 0.35
+height = 1.7
+material = SubResource("r80")
+
+[sub_resource type="StandardMaterial3D" id="r82"]
+albedo_color = Color(0.74, 0.62, 0.31, 1)
+roughness = 0.88
+
+[sub_resource type="CylinderMesh" id="r83"]
+top_radius = 0.65
+bottom_radius = 0.65
+height = 0.06
+material = SubResource("r82")
+
+[sub_resource type="StandardMaterial3D" id="r84"]
+albedo_color = Color(0.74, 0.62, 0.31, 1)
+roughness = 0.88
+
+[sub_resource type="CylinderMesh" id="r85"]
+top_radius = 0.65
+bottom_radius = 0.65
+height = 0.06
+material = SubResource("r84")
+
+[sub_resource type="StandardMaterial3D" id="r86"]
+albedo_color = Color(0.74, 0.62, 0.31, 1)
+roughness = 0.88
+
+[sub_resource type="CylinderMesh" id="r87"]
+top_radius = 0.65
+bottom_radius = 0.65
+height = 0.06
+material = SubResource("r86")
+
+[node name="ShuiyuePalace" type="Node3D"]
+script = ExtResource("1")
+location_id = "palace"
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Architecture" type="Node3D" parent="World"]
+
+[node name="Props" type="Node3D" parent="World"]
+
+[node name="Interactions" type="Node3D" parent="World"]
+
+[node name="Spawns" type="Node3D" parent="."]
+
+[node name="Environment" type="WorldEnvironment" parent="World"]
+environment = SubResource("r1")
+
+[node name="Sun" type="DirectionalLight3D" parent="World"]
+rotation_degrees = Vector3(-52, -25, 0)
+light_color = Color(1, 0.91, 0.75, 1)
+light_energy = 1.25
+shadow_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2")]
+position = Vector3(0, 0.15, 8)
+scale = Vector3(0.48, 0.48, 0.48)
+
+[node name="Camera" type="Camera3D" parent="."]
+position = Vector3(0, 12, 23)
+current = true
+projection = 1
+size = 19
+far = 160
+
+[node name="ChapterBattle" type="Node" parent="."]
+script = ExtResource("5")
+
+[node name="entry" type="Marker3D" parent="Spawns"]
+position = Vector3(0, 0.1, 8)
+
+[node name="Floor_2" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(0, -0.3, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/Floor_2"]
+mesh = SubResource("r4")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/Floor_2"]
+shape = SubResource("r5")
+
+[node name="Boundary_6" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(0, 1, -15.5)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/Boundary_6"]
+mesh = SubResource("r8")
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/Boundary_6"]
+shape = SubResource("r9")
+
+[node name="Boundary_10" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(0, 1, 15.5)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/Boundary_10"]
+mesh = SubResource("r12")
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/Boundary_10"]
+shape = SubResource("r13")
+
+[node name="Boundary_14" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(-16.5, 1, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/Boundary_14"]
+mesh = SubResource("r16")
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/Boundary_14"]
+shape = SubResource("r17")
+
+[node name="Boundary_18" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(16.5, 1, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/Boundary_18"]
+mesh = SubResource("r20")
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/Boundary_18"]
+shape = SubResource("r21")
+
+[node name="Courtyard_22" type="Node3D" parent="World/Props"]
+position = Vector3(0, 0.035, 1)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/Courtyard_22"]
+mesh = SubResource("r24")
+visible = true
+
+[node name="BackWall_25" type="StaticBody3D" parent="World/Architecture"]
+position = Vector3(0, 2, -12)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Architecture/BackWall_25"]
+mesh = SubResource("r27")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Architecture/BackWall_25"]
+shape = SubResource("r28")
+
+[node name="JadePillar_29" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-10, 2, -8)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/JadePillar_29"]
+mesh = SubResource("r31")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/JadePillar_29"]
+shape = SubResource("r32")
+
+[node name="JadePillar_33" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-5, 2, -8)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/JadePillar_33"]
+mesh = SubResource("r35")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/JadePillar_33"]
+shape = SubResource("r36")
+
+[node name="JadePillar_37" type="StaticBody3D" parent="World/Props"]
+position = Vector3(5, 2, -8)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/JadePillar_37"]
+mesh = SubResource("r39")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/JadePillar_37"]
+shape = SubResource("r40")
+
+[node name="JadePillar_41" type="StaticBody3D" parent="World/Props"]
+position = Vector3(10, 2, -8)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/JadePillar_41"]
+mesh = SubResource("r43")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/JadePillar_41"]
+shape = SubResource("r44")
+
+[node name="PalaceRoof_45" type="Node3D" parent="World/Props"]
+position = Vector3(0, 4.2, -10)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/PalaceRoof_45"]
+mesh = SubResource("r47")
+visible = true
+
+[node name="RestingCouch_48" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-7, 0.45, -6)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/RestingCouch_48"]
+mesh = SubResource("r50")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/RestingCouch_48"]
+shape = SubResource("r51")
+
+[node name="Altar_52" type="StaticBody3D" parent="World/Props"]
+position = Vector3(5, 0.65, -6)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/Altar_52"]
+mesh = SubResource("r54")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Altar_52"]
+shape = SubResource("r55")
+
+[node name="RuinBeam" type="Node3D" parent="World/Props"]
+position = Vector3(1, 0, -6)
+script = ExtResource("6")
+broken_after_stage = 12
+
+[node name="DamagedBeam_56" type="Node3D" parent="World/Props/RuinBeam"]
+position = Vector3(0, 2.4, 0)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/RuinBeam/DamagedBeam_56"]
+mesh = SubResource("r58")
+visible = true
+
+[node name="Trunk_59" type="StaticBody3D" parent="World/Props"]
+position = Vector3(-13, 1, 5)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/Trunk_59"]
+mesh = SubResource("r61")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Trunk_59"]
+shape = SubResource("r62")
+
+[node name="Canopy65" type="MeshInstance3D" parent="World/Props"]
+position = Vector3(-13, 2.8, 5)
+mesh = SubResource("r64")
+
+[node name="Trunk_66" type="StaticBody3D" parent="World/Props"]
+position = Vector3(13, 1, 5)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/Trunk_66"]
+mesh = SubResource("r68")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Trunk_66"]
+shape = SubResource("r69")
+
+[node name="Canopy72" type="MeshInstance3D" parent="World/Props"]
+position = Vector3(13, 2.8, 5)
+mesh = SubResource("r71")
+
+[node name="Trunk_73" type="StaticBody3D" parent="World/Props"]
+position = Vector3(12, 1, -10)
+
+[node name="Visual" type="MeshInstance3D" parent="World/Props/Trunk_73"]
+mesh = SubResource("r75")
+visible = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Props/Trunk_73"]
+shape = SubResource("r76")
+
+[node name="Canopy79" type="MeshInstance3D" parent="World/Props"]
+position = Vector3(12, 2.8, -10)
+mesh = SubResource("r78")
+
+[node name="elder" type="Node3D" parent="World/Interactions"]
+position = Vector3(-6, 0, -2)
+script = ExtResource("3")
+interaction_id = "elder"
+display_name = "姥姥"
+target_location = ""
+target_spawn = "entry"
+minimum_stage = -1
+maximum_stage = 13
+idle_text = "姥姥静静休息着。"
+
+[node name="NameLabel" type="Label3D" parent="World/Interactions/elder"]
+position = Vector3(0, 2.6, 0)
+text = "姥姥"
+font = ExtResource("4")
+font_size = 30
+pixel_size = 0.016
+billboard = 1
+outline_size = 8
+
+[node name="Visual" type="Node3D" parent="World/Interactions/elder"]
+
+[node name="StandIn" type="MeshInstance3D" parent="World/Interactions/elder/Visual"]
+position = Vector3(0, 0.85, 0)
+mesh = SubResource("r81")
+
+[node name="night" type="Node3D" parent="World/Interactions"]
+position = Vector3(5, 0, -3)
+script = ExtResource("3")
+interaction_id = "night"
+display_name = "喜烛 / 歇息"
+target_location = ""
+target_spawn = "entry"
+minimum_stage = 8
+maximum_stage = 9
+idle_text = ""
+
+[node name="NameLabel" type="Label3D" parent="World/Interactions/night"]
+position = Vector3(0, 2.6, 0)
+text = "喜烛 / 歇息"
+font = ExtResource("4")
+font_size = 30
+pixel_size = 0.016
+billboard = 1
+outline_size = 8
+
+[node name="Visual" type="Node3D" parent="World/Interactions/night"]
+
+[node name="Marker" type="MeshInstance3D" parent="World/Interactions/night/Visual"]
+position = Vector3(0, 0.05, 0)
+mesh = SubResource("r83")
+
+[node name="linger" type="Node3D" parent="World/Interactions"]
+position = Vector3(0, 0, -2)
+script = ExtResource("3")
+interaction_id = "linger"
+display_name = "赵灵儿"
+target_location = ""
+target_spawn = "entry"
+minimum_stage = 7
+maximum_stage = 11
+idle_text = "无论将来走到哪里，都不要忘了今日的约定。"
+
+[node name="NameLabel" type="Label3D" parent="World/Interactions/linger"]
+position = Vector3(0, 2.6, 0)
+text = "赵灵儿"
+font = ExtResource("4")
+font_size = 30
+pixel_size = 0.016
+billboard = 1
+outline_size = 8
+
+[node name="Visual" type="Node3D" parent="World/Interactions/linger"]
+script = ExtResource("character_linger")
+character_scene = ExtResource("art_linger")
+character_height = 1.9
+
+[node name="burial" type="Node3D" parent="World/Interactions"]
+position = Vector3(11, 0, -7)
+script = ExtResource("3")
+interaction_id = "burial"
+display_name = "后院 / 安葬姥姥"
+target_location = ""
+target_spawn = "entry"
+minimum_stage = 13
+maximum_stage = 99
+idle_text = "姥姥长眠于此。灵儿默默行礼。"
+
+[node name="NameLabel" type="Label3D" parent="World/Interactions/burial"]
+position = Vector3(0, 2.6, 0)
+text = "后院 / 安葬姥姥"
+font = ExtResource("4")
+font_size = 30
+pixel_size = 0.016
+billboard = 1
+outline_size = 8
+
+[node name="Visual" type="Node3D" parent="World/Interactions/burial"]
+
+[node name="Marker" type="MeshInstance3D" parent="World/Interactions/burial/Visual"]
+position = Vector3(0, 0.05, 0)
+mesh = SubResource("r85")
+
+[node name="island" type="Node3D" parent="World/Interactions"]
+position = Vector3(0, 0, 12)
+script = ExtResource("3")
+interaction_id = "island"
+display_name = "返回仙灵岛"
+target_location = "island"
+target_spawn = "entry"
+minimum_stage = -1
+maximum_stage = 99
+idle_text = ""
+
+[node name="NameLabel" type="Label3D" parent="World/Interactions/island"]
+position = Vector3(0, 2.6, 0)
+text = "返回仙灵岛"
+font = ExtResource("4")
+font_size = 30
+pixel_size = 0.016
+billboard = 1
+outline_size = 8
+
+[node name="Visual" type="Node3D" parent="World/Interactions/island"]
+
+[node name="Marker" type="MeshInstance3D" parent="World/Interactions/island/Visual"]
+position = Vector3(0, 0.05, 0)
+mesh = SubResource("r87")
+
+[node name="PalaceTitle" type="Label3D" parent="World/Props"]
+position = Vector3(0, 4, -10)
+text = "水月宫"
+font = ExtResource("4")
+font_size = 40
+pixel_size = 0.016
+billboard = 1
+outline_size = 8

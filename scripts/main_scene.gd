@@ -1,5 +1,6 @@
 ## 主场景控制器 — 游戏状态管理、信号连接、相机跟随
 extends Node3D
+const ExplorationCamera := preload("res://scripts/exploration_camera.gd")
 
 @onready var _player: CharacterBody3D = $World/Player
 @onready var _camera: Camera3D = $Camera
@@ -14,11 +15,16 @@ var _arena_environment_resource: Environment
 var _world_environment_resource: Environment
 
 func _ready() -> void:
+	# 开场场景使用的是全局音乐播放器；进村后交给本场景的 VillageMusic，避免两首 BGM 叠放。
+	GameData.stop_persistent_music()
 	_arena_environment_resource = _arena_environment.environment
 	_world_environment_resource = _world_environment.environment
 	_arena_environment.environment = null
 	_battle_arena.visible = false
 	GameData.current_state = GameData.GameState.EXPLORE
+	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	_camera.size = ExplorationCamera.VIEW_SIZE
+	ExplorationCamera.follow(_camera, _player, 1.0)
 	GameData.show_scene_title("余 杭 镇")
 	_village_music.finished.connect(_on_village_music_finished)
 	_play_village_music()
@@ -51,8 +57,10 @@ func _connect_signals() -> void:
 	var player_area: Area3D = _player.get_node("InteractionArea")
 	for npc in _npcs:
 		var npc_area: Area3D = npc.get_interact_area()
-		player_area.area_entered.connect(_on_npc_area_entered.bind(npc, npc_area))
-		player_area.area_exited.connect(_on_npc_area_exited.bind(npc, npc_area))
+		var on_enter := _on_npc_area_entered.bind(npc, npc_area)
+		var on_exit := _on_npc_area_exited.bind(npc, npc_area)
+		if not player_area.area_entered.is_connected(on_enter): player_area.area_entered.connect(on_enter)
+		if not player_area.area_exited.is_connected(on_exit): player_area.area_exited.connect(on_exit)
 		npc.recruited.connect(_on_npc_recruited)
 
 func _on_npc_area_entered(area: Area3D, npc, npc_area: Area3D) -> void:
@@ -71,6 +79,9 @@ func _on_player_interact() -> void:
 		if not result.is_empty():
 			DialogueSystem.start_dialogue(result["lines"])
 			return
+	var ground_item := _find_nearest_ground_item()
+	if ground_item and ground_item.try_pickup(_player.global_position):
+		return
 	var nearby_npc: Node3D = _find_nearest_auto_interact_npc()
 	if nearby_npc:
 		_pending_interact_npc = nearby_npc
@@ -79,6 +90,21 @@ func _on_player_interact() -> void:
 		_player.walk_to(nearby_npc.global_position, stop_distance)
 		return
 	$UILayer/InventoryUI.toggle()
+
+func _find_nearest_ground_item() -> Node3D:
+	var closest: Node3D
+	var closest_distance := INF
+	for node in get_tree().get_nodes_in_group("ground_items"):
+		var item := node as Node3D
+		if not is_instance_valid(item) or not item.has_method("is_in_pickup_range"):
+			continue
+		if not bool(item.is_in_pickup_range(_player.global_position)):
+			continue
+		var distance := item.global_position.distance_squared_to(_player.global_position)
+		if distance < closest_distance:
+			closest = item
+			closest_distance = distance
+	return closest
 
 func _find_nearest_auto_interact_npc() -> Node3D:
 	# 只有已亮出交互提示图标的 NPC 才能触发自动靠近。
@@ -129,7 +155,7 @@ func _on_battle_ended(victory: bool) -> void:
 	if victory:
 		await $UILayer/BattleUI.victory_continue_requested
 	else:
-		await get_tree().create_timer(0.35 if BattleSystem.did_escape else 1.5).timeout
+		await get_tree().create_timer(0.35 if BattleSystem.did_escape else 1.5, false).timeout
 	BattleSystem.end_battle()
 	$UILayer/BattleUI.visible = false
 	_world_node.visible = true
@@ -170,14 +196,12 @@ func _process(delta: float) -> void:
 		_battle_arena.visible = false
 		_world_environment.environment = _world_environment_resource
 		_arena_environment.environment = null
-		var target_pos: Vector3 = _player.global_position + Vector3(0, 3, 14)
-		_camera.global_position = _camera.global_position.lerp(target_pos, 3.0 * delta)
-		_camera.look_at(_player.global_position + Vector3(0, 1.5, 0), Vector3.UP)
+		ExplorationCamera.follow(_camera, _player, 1.0 - exp(-3.0 * delta))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.physical_keycode == KEY_F1:
 			if GameData.current_state == GameData.GameState.EXPLORE:
-				# F1 用于当前 ATB 测试：李逍遥对两只蜜蜂精。
-				BattleSystem.start_battle(["蜜蜂精", "蜜蜂精"], [GameData.party[0]])
+				# F1 用于战斗站位测试：五个敌人；直接使用当前队伍，赵灵儿已入队时会一同上场。
+				BattleSystem.start_battle(["蘑菇怪", "死士", "蜜蜂精", "蘑菇怪", "蜜蜂精"])
 				get_viewport().set_input_as_handled()

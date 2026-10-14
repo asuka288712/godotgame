@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://pchc5y0rs8co"]
+
+[ext_resource type="Texture2D" uid="uid://d0byyab0nhpme" path="res://assets/generated/tree_wind_4frames.png" id="1_83ntx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s32a5"]
+atlas = ExtResource("1_83ntx")
+region = Rect2(543, 0, 543, 724)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5q7q8"]
+atlas = ExtResource("1_83ntx")
+region = Rect2(1629, 0, 543, 724)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4j3yi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s32a5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5q7q8")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 2.0
+}]
+
+[node name="Tree" type="Sprite3D" unique_id=1126694146]
+alpha_cut = 1
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=49658730]
+alpha_cut = 1
+sprite_frames = SubResource("SpriteFrames_4j3yi")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.3279009

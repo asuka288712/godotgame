@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bbpgu8qttt1h4"]
+
+[ext_resource type="Texture2D" uid="uid://ddof77d6i7pn7" path="res://assets/generated/inn_exterior/redwood_grain_tile.png" id="1_ftjit"]
+
+[resource]
+albedo_texture = ExtResource("1_ftjit")
+uv1_scale = Vector3(2.09, 2.09, 2.09)
+uv2_scale = Vector3(0.73, 0.73, 0.73)

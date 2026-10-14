@@ -172,10 +172,10 @@ animations = [{
 }]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_col"]
-size = Vector3(4.983081, 9.45166, 0.6)
+size = Vector3(3.2, 8.0, 3.2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
-radius = 2.5
+radius = 5.0617924
 
 [node name="NPC" type="StaticBody3D" unique_id=1413839874]
 script = ExtResource("1_script")
@@ -188,7 +188,6 @@ animation = &"idle"
 frame_progress = 0.48637903
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=476992750]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05275005, 0.03811264, 0)
 shape = SubResource("BoxShape3D_col")
 
 [node name="InteractArea" type="Area3D" parent="." unique_id=1731456092]
